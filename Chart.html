@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>ORCS Girls - MicroBit Dashboard</title>
+    <title>ORCS Girls - MicroBit Chart Plotter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -10,7 +10,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="dist/microbit.umd.js"></script>
 <script type="text/javascript" src="scripts/helpers.js"></script>
-<script type="text/javascript" src="scripts/dashboard.js"></script>
+<script type="text/javascript" src="scripts/chart.js"></script>
 
 <div class="container-fluid h-100 px-4" role="main">
 
@@ -22,15 +22,12 @@
 	<img src="images/orcsgirls.png" height="40px" align="right"></td>
 	</tr>
 	
-	<tr>
-	<td class="text-center w-50"><h4 id="labA">-</h4><h4 class="display-4"><b><span id="A">0</span></b></h4></td>
-	<td class="text-center w-50"><h4 id="labB">-</h4><h4 class="display-4"><b><span id="B">0</span></b></h4></td>
-	</tr>
-	
-	<tr><td colspan="2" class="text-center" height="500px"><div id="chart_div" style="height: 100%"></div></td></tr>
+	<tr><td colspan="2" class="text-center" height="600px"><h4 id="cT">Connect to MicroBit first ..</h4>
+		<div id="chart_div"></div></td></tr>
 	
 	<tr><td colspan="2" class="text-center table-primary align-middle px-3">
-	<input type="submit" value="Reset" id="btn1" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
+	<input type="submit" value="Start" id="btn1" class="btn btn-success" onClick="uartSend(this.value);" disabled>
+	<input type="submit" value="Stop" id="btn2" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
 	</td></tr>
 </tbody>
 </table>

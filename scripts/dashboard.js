@@ -1,55 +1,56 @@
-google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawBasic);
 
-var data, chart, options;
-var device, services;
-
-function onResize() {
-	if (chart) { chart.draw(data, options);	}
+function updateUI (){
+	document.getElementById("btn1").disabled=false;
 }
-
-function onDisconnected(event) {
-	document.getElementById("connect").innerHTML="<input type=\"submit\" value=\"Connect to MicroBit\" id=\"find\" class=\"btn btn-primary\">";
-}
-
-function uartSend() {
-	if (services.uartService) {
-		services.uartService.sendText(document.getElementById("send").value+"\n");
-	}
-}
-
 function uartCallback (event) {
-	response=event.detail.split(":");
-	document.getElementById(response[0]).innerHTML=response[1];
-	
-	if (chart) {
-		if (response[0]=="A") {data.setCell(0,1, response[1]);}
-		if (response[0]=="B") {data.setCell(1,1, response[1]);}
-		chart.draw(data, options);
+	if (event.detail.length>=20) {
+		document.getElementById("msg").innerHTML="<b>Command string might be truncated</b> - 20 characters maximum";
 	}
-}
+	response=event.detail.split(":");
 
-async function bleConnect() {
-	device = await microbit.requestMicrobit(window.navigator.bluetooth);
-	document.getElementById("connect").innerHTML="<b>Please wait - connecting to MicroBit</b>";
-
-	if (device) {
-		device.addEventListener('gattserverdisconnected', onDisconnected);
-		
-		services = await microbit.getServices(device);
-				
-		if (services.uartService) {
-			services.uartService.addEventListener("receiveText", uartCallback);
-			document.getElementById("connect").innerHTML="<b>Ready</b> (Reload page to disconnect)";
-
+	if (chart) {
+		switch(response[0]) {
+			case "cA":
+				data.setCell(0,1, response[1]);
+				chart.draw(data, options);
+				break;
+			case "cB":
+				data.setCell(1,1, response[1]);
+				chart.draw(data, options);
+				break;	
+			case "cLabA":
+				data.setCell(0,0, response[1]);
+				chart.draw(data, options);
+				break;
+			case "cLabB":
+				data.setCell(1,0, response[1]);
+				chart.draw(data, options);
+				break;
+			case "cMax":
+				options.hAxis.maxValue=response[1];
+				chart.draw(data, options);
+				break;
+			case "labA":
+			case "labB":
+			case "A":
+			case "B":
+				document.getElementById(response[0]).innerHTML=response[1];
+				break;
+			default:
+				document.getElementById("msg").innerHTML="<b>Unknown id</b> - "+response[0];
 		}
 	}
 }
 
 function drawBasic() {
-      data = google.visualization.arrayToDataTable([['Value', 'Count'],['A', 0],['B', 0]]);
-	  options = {height: 350,hAxis: {minValue: 0}};
+	data = google.visualization.arrayToDataTable([['Value', 'Count',{ role: 'style' }],['A', 0, 'color: #4285F4'],['B', 0, 'color: #DB4437']]);
+	options = {
+		chartArea: 	{width: '80%', height: '80%'},
+		hAxis: 		{minValue: 0, maxValue: 10},
+		legend: 	{position: 'none'}
+	};
 
-      chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+	chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	chart.draw(data, options);
 }
