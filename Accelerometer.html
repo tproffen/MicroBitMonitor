@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title>ORCS Girls - MicroBit Logger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	  
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="dist/microbit.umd.js"></script>
+
+
+<div class="container theme-showcase" role="main">
+    <img src="../../images/orcsgirls.png" height="50px" vspace="10">
+	  
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Accelerometer logger</h3>
+		</div>
+		<div class="panel-body">
+			<div id="info">
+				<input type="submit" value="Connect to MicroBit" id="find" class="btn btn-success">
+			</div>
+			<div id="chart_div" style="height:75%"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+const bufferSize=50;
+var index=0;
+var data, chart, options;
+
+function acceleratorCallback (event) {
+	if (index>bufferSize) {data.removeRow(0);}
+	data.addRow([index,event.detail.x,event.detail.y,event.detail.z]);
+	index++;
+	
+	chart.draw(data, options);
+}
+
+document.getElementById("find").onclick = async () => {
+	const device = await microbit.requestMicrobit(window.navigator.bluetooth);
+	if (device) {
+		const services = await microbit.getServices(device);
+					
+		if (services.deviceInformationService) {
+			document.getElementById("info").innerHTML = JSON.stringify(await services.deviceInformationService.readDeviceInformation());
+		}
+					
+		if (services.accelerometerService) {
+			await services.accelerometerService.setAccelerometerPeriod(80);
+			services.accelerometerService.addEventListener("accelerometerdatachanged", acceleratorCallback);
+		}
+
+	}
+}
+
+function drawBasic() {
+
+      data = new google.visualization.DataTable();
+	  
+      data.addColumn('number', 'Time');
+      data.addColumn('number', 'X');
+      data.addColumn('number', 'Y');
+      data.addColumn('number', 'Z');
+
+	  options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Accelerometer'
+        }
+      };
+
+      chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+}
+
+</script>
+
+</body>
+</html>
+
