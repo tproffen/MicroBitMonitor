@@ -10,7 +10,7 @@ You will need to download and load this <a href="https://tproffen.github.io/Micr
 
 ## Chart
 
-You will need to download and load this <a href="https://tproffen.github.io/MicroBitMonitor/hexfiles/microbit-BLEPlotter.hex">hex file</a> to your MicroBit. The code can be viewed <a href="https://tproffen.github.io/MicroBitMonitor/images/chartScreenShot.png">here</a>. Once the MicroBit is ready, visit the <a href="https://tproffen.github.io/MicroBitMonitor/Chart.html">dashboard page</a> and connect to the MicroBit. Once it is connected, click on the Start button and you will see a chart of the accelerometer values in x, y and z directions. Refer to the example how to communicate with the page. Please note, the UART implementation only allows strings of up to 20 characters. Keep this in mind when modifying the examples.
+You will need to download and load this <a href="https://tproffen.github.io/MicroBitMonitor/hexfiles/microbit-BLEPlotter.hex">hex file</a> to your MicroBit. The code can be viewed <a href="https://tproffen.github.io/MicroBitMonitor/images/chartScreenShot.png">here</a>. Once the MicroBit is ready, visit the <a href="https://tproffen.github.io/MicroBitMonitor/Chart.html">chart plotting page</a> and connect to the MicroBit. Once it is connected, click on the Start button and you will see a chart of the accelerometer values in x, y and z directions. Refer to the example how to communicate with the page. Please note, the UART implementation only allows strings of up to 20 characters. Keep this in mind when modifying the examples.
 
 Enjoy.
 <a href="mailto:thomas@orcsgirls.org">Thomas</a>
