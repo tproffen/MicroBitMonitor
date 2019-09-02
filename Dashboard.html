@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>ORCS Girls - MicroBit Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body onresize="onResize()">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="dist/microbit.umd.js"></script>
+<script type="text/javascript" src="scripts/helpers.js"></script>
+<script type="text/javascript" src="scripts/dashboard.js"></script>
+
+<div class="container-fluid h-100 p-1" role="main">
+
+<table class="table table-bordered m-0">
+<tbody>
+	<tr class="table-primary">
+	<td colspan="2">
+	<input type="submit" value="Connect to MicroBit" id="connect" class="btn btn-primary" onclick="bleConnect();">
+	<img src="images/orcsgirls.png" height="40px" align="right"></td>
+	</tr>
+	
+	<tr>
+	<td class="text-center w-50"><h4 id="labA">-</h4><h4 class="display-4"><b><span id="A">0</span></b></h4></td>
+	<td class="text-center w-50"><h4 id="labB">-</h4><h4 class="display-4"><b><span id="B">0</span></b></h4></td>
+	</tr>
+	
+	<tr><td colspan="2" class="text-center" height="360px"><div id="chart_div" style="height: 100%"></div></td></tr>
+	
+	<tr><td colspan="2" class="text-center table-primary align-middle">
+	<input type="submit" value="Reset" id="btn1" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
+	</td></tr>
+</tbody>
+</table>
+<div id="msg"></div>
+
+</div>
+</body>
+</html>
+
