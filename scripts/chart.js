@@ -41,6 +41,8 @@ function uartCallback (event) {
 				chart.draw(data, options);
 				break;
 			case "cT":
+			case "A":
+			case "labA":
 				document.getElementById(response[0]).innerHTML=response[1];
 				break;
 			default:
