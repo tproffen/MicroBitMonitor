@@ -5,16 +5,16 @@
 </head>
 
 <body onresize="onResize()">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="dist/microbit.umd.js"></script>
 <script type="text/javascript" src="scripts/helpers.js"></script>
 <script type="text/javascript" src="scripts/dashboard.js"></script>
 
-<div class="container-fluid h-100 px-4" role="main">
+<div class="container-fluid h-100 p-1" role="main">
 
-<table class="table table-bordered mt-3">
+<table class="table table-bordered m-0">
 <tbody>
 	<tr class="table-primary">
 	<td colspan="2">
@@ -29,7 +29,7 @@
 	
 	<tr><td colspan="2" class="text-center" height="360px"><div id="chart_div" style="height: 100%"></div></td></tr>
 	
-	<tr><td colspan="2" class="text-center table-primary align-middle px-3">
+	<tr><td colspan="2" class="text-center table-primary align-middle">
 	<input type="submit" value="Reset" id="btn1" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
 	</td></tr>
 </tbody>
