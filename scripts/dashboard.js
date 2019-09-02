@@ -11,31 +11,29 @@ function uartCallback (event) {
 
 	if (chart) {
 		switch(response[0]) {
-			case "cA":
+			case "A":
+				document.getElementById(response[0]).innerHTML=response[1];
 				data.setCell(0,1, response[1]);
 				chart.draw(data, options);
 				break;
-			case "cB":
+			case "B":
+				document.getElementById(response[0]).innerHTML=response[1];
 				data.setCell(1,1, response[1]);
 				chart.draw(data, options);
 				break;	
-			case "cLabA":
+			case "labA":
+				document.getElementById(response[0]).innerHTML=response[1];
 				data.setCell(0,0, response[1]);
 				chart.draw(data, options);
 				break;
-			case "cLabB":
+			case "labB":
+				document.getElementById(response[0]).innerHTML=response[1];
 				data.setCell(1,0, response[1]);
 				chart.draw(data, options);
 				break;
 			case "cMax":
 				options.hAxis.maxValue=response[1];
 				chart.draw(data, options);
-				break;
-			case "labA":
-			case "labB":
-			case "A":
-			case "B":
-				document.getElementById(response[0]).innerHTML=response[1];
 				break;
 			default:
 				document.getElementById("msg").innerHTML="<b>Unknown id</b> - "+response[0];

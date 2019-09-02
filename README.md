@@ -6,7 +6,7 @@ found <a href="https://github.com/thegecko/microbit-web-bluetooth">here</a>.
 
 ## Dashboard
 
-You will need to download and load this <a href="https://tproffen.github.io/MicroBitMonitor/hexfiles/microbit-BLEDashboard.hex">hex file</a> to your MicroBit. The code can be viewed <a href="https://tproffen.github.io/MicroBitMonitor/images/dashboardScreenShot.png">here</a>. Once the MicroBit is ready, visit the <a href="https://tproffen.github.io/MicroBitMonitor/Dashboard.html">dashboard page</a> and connect to the MicroBit. Use the 'A' and 'B' buttons to increase the number of apples and oranges :) This can be used for voting ganes, two player competitions and so on. Refer to the example how to communicate with the page.
+You will need to download and load this <a href="https://tproffen.github.io/MicroBitMonitor/hexfiles/microbit-BLEDashboard.hex">hex file</a> to your MicroBit. The code can be viewed <a href="https://tproffen.github.io/MicroBitMonitor/images/dashboardScreenShot.png">here</a>. Once the MicroBit is ready, visit the <a href="https://tproffen.github.io/MicroBitMonitor/Dashboard.html">dashboard page</a> and connect to the MicroBit. The example is a competition how many situps someone can mane by sim0ly counting the times the MiroBits logo points down. Refer to the example how to communicate with the page.
 
 ## Chart
 
