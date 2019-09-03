@@ -4,38 +4,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body onresize="onResize()">
+<body>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="dist/microbit.umd.js"></script>
 <script type="text/javascript" src="scripts/helpers.js"></script>
-<script type="text/javascript" src="scripts/dashboard.js"></script>
 
 <div class="container-fluid h-100 p-1" role="main">
 
 <table class="table table-bordered m-0">
 <tbody>
+	<!-- Top row with connect button -->
+
 	<tr class="table-primary">
-	<td colspan="2">
-	<input type="submit" value="Connect to MicroBit" id="connect" class="btn btn-primary" onclick="bleConnect();">
-	<img src="images/orcsgirls.png" height="40px" align="right"></td>
+	<td colspan="2"><span id="ble"></span><img src="images/orcsgirls.png" height="40px" align="right"></td>
 	</tr>
 	
-	<tr>
-	<td class="text-center w-50"><h4 id="labA">-</h4><h4 class="display-4"><b><span id="A">0</span></b></h4></td>
-	<td class="text-center w-50"><h4 id="labB">-</h4><h4 class="display-4"><b><span id="B">0</span></b></h4></td>
-	</tr>
+	<!--Rows for customisable fields -->
 	
-	<tr><td colspan="2" class="text-center" height="360px"><div id="chart_div" style="height: 100%"></div></td></tr>
+	<tr id="row1"><td colspan="2" class="text-center"><h4>Waiting for MicroBit ..</h4></td></tr>
+	<tr id="row2"></tr>
 	
+	<!-- Button row -->
+
 	<tr><td colspan="2" class="text-center table-primary align-middle">
-	<input type="submit" value="Reset" id="btn1" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
+	<input type="submit" value="Start" id="btn1" class="btn btn-success" style="width: 10%;" 
+		   onClick="uartSend(this.value);" disabled>
+	<input type="submit" value="Stop" id="btn2" class="btn btn-danger" style="width: 10%;" 
+	       onClick="uartSend(this.value);" disabled>
+	<input type="submit" value="Help" id="btn-help" class="btn btn-primary ml-5" style="width: 10%;" 
+	       onClick="onclick=window.open('help.html','_blank')">
 	</td></tr>
 </tbody>
 </table>
 <div id="msg"></div>
-
+<script>setup();</script>
 </div>
 </body>
 </html>
