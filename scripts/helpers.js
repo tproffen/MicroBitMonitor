@@ -1,5 +1,3 @@
-google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
-
 const bufferSize=100;
 
 var data, chart, options;
