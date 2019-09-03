@@ -36,11 +36,13 @@ function toggleButtons(state) {
 
 function configPanels(command) {
 	for (var i=1; i<command.length; i++) {
-		configPanelsRow(command[i],"row"+i);
+		configPanelsRow(command[i],i);
 	}
 }
 
-function configPanelsRow(what, row) {
+function configPanels(what, index) {
+	var row="row"+index;
+	
 	switch(what) {
 		case "t1":
 			document.getElementById(row).innerHTML=textPanel();
@@ -104,7 +106,7 @@ function uartCallback (event) {
 	
 	switch(response[0]) {
 		case "config":
-			configPanels(response);
+			configPanels(response[1]);
 			break;
 		case "cL":
 			setColumns(response);
