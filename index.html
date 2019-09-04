@@ -22,24 +22,22 @@
 	<!-- Top row with connect button -->
 
 	<tr class="table-primary">
-	<td colspan="2"><span id="ble"></span><img src="images/orcsgirls.png" height="40px" align="right"></td>
+	<td colspan="2"><span id="ble"></span>
+		<input type="submit" value="Help" id="btn-help" class="btn btn-primary" onClick="onclick=window.open('help.html','_blank')">
+		<img src="images/orcsgirls.png" height="40px" align="right"></td>
 	</tr>
 	
 	<!--Rows for customisable fields -->
 	
 	<tr id="row1"><td colspan="2" class="text-center"><h4>Waiting for MicroBit ..</h4></td></tr>
 	<tr id="row2"></tr>
+	<tr id="row3"></tr>
 	
 	<!-- Button row -->
-
-	<tr><td colspan="2" class="text-center table-primary align-middle">
-	<input type="submit" value="Start" id="btn1" class="btn btn-success" onClick="uartSend(this.value);" disabled>
-	<input type="submit" value="Stop" id="btn2" class="btn btn-danger" onClick="uartSend(this.value);" disabled>
-	<input type="submit" value="Help" id="btn-help" class="btn btn-primary ml-5" onClick="onclick=window.open('help.html','_blank')">
-	</td></tr>
+	<tr><td colspan="2" class="table-primary align-middle p-1 pl-2" id="msg">&nbsp;</td></tr>
 </tbody>
 </table>
-<div id="msg"></div>
+
 <script>setup();</script>
 </div>
 </body>

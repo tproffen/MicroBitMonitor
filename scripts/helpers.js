@@ -25,11 +25,6 @@ function onResize() {
 	if (chart) { chart.draw(data, options);	}
 }
 
-function toggleButtons(state) {	
-	document.getElementById("btn1").disabled=state;
-	document.getElementById("btn2").disabled=state;
-}
-
 //---------------------------------------------------------------------------------------------------------
 // Panel configurations
 //---------------------------------------------------------------------------------------------------------
@@ -40,7 +35,7 @@ function configPanels(command) {
 	}
 }
 
-function configPanels(what, index) {
+function configPanelsRow(what, index) {
 	var row="row"+index;
 	
 	switch(what) {
@@ -59,9 +54,23 @@ function configPanels(what, index) {
 		case "cl":
 			document.getElementById(row).innerHTML=graphLine();
 			break;
+		case "bctl":
+			document.getElementById(row).innerHTML=startStopButtons();
+			break;
+		case "brst":
+			document.getElementById(row).innerHTML=resetButton();
+			break;
 		default:
 			document.getElementById("msg").innerHTML="<b>Unknown configuration</b> - "+what;
 	}
+}
+
+function startStopButtons(){
+	return "<td colspan='2' class='text-center bg-light'><input type='submit' value='Start' class='btn btn-success' onClick='uartSend(this.value);'><input type='submit' value='Stop' class='btn btn-danger m-2' onClick='uartSend(this.value);'></td>";
+}
+
+function resetButton(){
+	return "<td colspan='2' class='text-center bg-light'><input type='submit' value='Reset' class='btn btn-primary' onClick='uartSend(this.value);'></td>";
 }
 
 function twoValuesPanel() {
@@ -79,6 +88,7 @@ function textPanel() {
 function graphLine() {
 	google.charts.setOnLoadCallback(drawBasicLine);
 	ctype='line';
+
 	return "<td colspan='2' class='text-center' height='400px'><h4 id='cT'>&nbsp;</h4><div id='chart_div'></div></td></tr>";
 }
 
@@ -97,8 +107,7 @@ function onDisconnected(event) {
 	document.getElementById("ble").innerHTML=connectButton();
 	document.getElementById("row1").innerHTML="<td colspan='2' class='text-center'><h4>Waiting for MicroBit ..</h4></td>";
 	document.getElementById("row2").innerHTML="";
-
-	toggleButtons(true);
+	document.getElementById("row3").innerHTML="";
 }
 
 function uartCallback (event) {
@@ -106,7 +115,7 @@ function uartCallback (event) {
 	
 	switch(response[0]) {
 		case "config":
-			configPanels(response[1]);
+			configPanels(response);
 			break;
 		case "cL":
 			setColumns(response);
@@ -166,7 +175,6 @@ async function bleConnect() {
 				services.uartService.addEventListener("receiveText", uartCallback);
 				document.getElementById("msg").innerHTML="<b>Connected to MicroBit</b>";
 				document.getElementById("ble").innerHTML=disconnectButton();
-				toggleButtons(false);
 				uartSend("Ready");
 			}
 		}	
