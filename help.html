@@ -15,9 +15,62 @@
 	<hr>
 </div>
 
-<p>
-Coming soon ...
+<h4>Prerequisites</h4>
+
+<p>The MicroBit monitor allows to display information and interact with a MicroBit connected via Bluetooth LE. Please note, that not all browsers and devices have web Bluetooth capabilities. The easiest way to get started is to work from one of these examples
+
+<ul>
+<li><a href="https://makecode.microbit.org/_11ridfDihguL">Accelerometer</a></li>
+<li><a href="https://makecode.microbit.org/_Wryii6XkdRof">Exercise monitor</a></li>
+<li><a href="https://makecode.microbit.org/_36e6Rr5DXFTk">Temperature plotter</a></li>
+</ul>
 </p>
+
+<h4>Configuration</h4>
+
+<p>The MicroBit communicates with the web browser via BLE UART commands. The commands are strings in general formed as 
+<tt>command:parameter:..</tt> Note that the maximum string length that can be submitted it 20 characters requiring short 
+commands. Here is a list of currently implemented commands. 
+</p>
+
+<table class="table">
+<tr class="table-primary"><th>Command</th><th>Description</th></tr>
+<tr><td><tt>config:row1:row2:row3</tt></td>
+    <td>This sets the configuration of the screen. This needs to be the first command right after the browser 
+	send the string 'ready'. Rows 2 and 3 are optional. Each parameter row can take one of the values below 
+	representing different panels to be displayed.</td></tr>
+
+<tr class="bg-light"><td colspan="2">Panel commands</td></tr>
+
+<tr><td><tt>t1</tt></td><td>Created a full width text panel. The command <tt>tA:text</tt> will change the text on 
+    the web page to <tt>text</tt></td></tr>
+<tr><td><tt>v1</tt></td><td>Created a full width panel to display a label and value. The command <tt>lA:label</tt> will 
+    change the label on the web page to <tt>label</tt>. Similarly <tt>A:value</tt> will change the value to <tt>value</tt>
+	</td></tr>
+<tr><td><tt>v2</tt></td><td>Created a two panel across a row to display a label and value. The command <tt>lA:label</tt> will 
+    change the left label and <tt>lB:label</tt> on the web page to <tt>label</tt>. Similarly <tt>A:value</tt> will change the 
+	value to <tt>value</tt> on the left side and <tt>B:value</tt> will do the same for the right panel.
+	</td></tr>
+<tr><td><tt>bctl</tt></td><td>Created a full width panel with a <em>Start</em> and <em>Stop</em> button. Each button will 
+	send its value (e.g. Start) to the MicroBit when pressed.</td></tr>
+<tr><td><tt>brst</tt></td><td>Created a full width panel with a <em>Reset</em> button.</td></tr>
+
+<tr class="bg-light"><td colspan="2">Chart commands</td></tr>
+
+<tr><td><tt>cb</tt></td><td>This will create a full width bar chart using Google charts. The command <tt>cL:l1:l2:..</tt>
+	sets the labels for the data columns to <tt>l1, l2</tt> and so on. This needs to be the first command after
+	the configuration as it sets up the data dimensions. The data itself is sent using <tt>cV:v1:v2,..</tt>. The
+	number of values needs to match the number of labels. In case of the bar chart, only the last values are shown. The
+	command <tt>ct:title</tt> allows to set the chart title and <tt>cMax:value</tt> and <tt>cMin:value</tt> are
+	setting the range of the chart.</td></tr>
+	
+<tr><td><tt>ct</tt></td><td>This will create a full width line chart using Google charts. the commands are the same
+	as for the bar chart. The only difference is that data are added to the line graph until the buffer size is reach 
+	and future data will scroll across the chart.</td></tr>
+
+</table>
+
+<p>This is very much a work in progress ..</p>
 
 <p>
 <hr>
