@@ -11,91 +11,167 @@ var index=0;
 function setup() {
 	window.addEventListener("resize", onResize);
 	document.getElementById("ble").innerHTML=connectButton();
+	
+	
+	switch(window.location.protocol) {
+		case 'http:':
+		case 'https:':
+			document.getElementById("editBtn").innerHTML=saveEditButtons();
+			break;
+		default: 
+			//some other protocol
+	}
+
+	if(!localStorage.row1) {localStorage.row1=defaultPanel(1)};
+	if(!localStorage.row2) {localStorage.row2=defaultPanel(2)};
+	if(!localStorage.row3) {localStorage.row3=defaultPanel(3)};
+	if(!localStorage.style) {localStorage.style=defaultStyle()};
+
+	document.getElementById("row1").innerHTML=localStorage.row1;
+	document.getElementById("row2").innerHTML=localStorage.row2;
+	document.getElementById("row3").innerHTML=localStorage.row3;
+	document.getElementById("style").innerHTML=localStorage.style;
+
+	initializeChart();
+}
+
+function saveData() {
+	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
+	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
+
+	var data=document.documentElement.innerHTML;
+	var fileName="MicroBitMonitor.html";
+	
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+
+    var json = JSON.stringify(data),
+        blob = new Blob([data], {type: "text/plain;charset=utf-8"}),
+        url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+	
+	initializeChart();
 }
 
 function connectButton() {
-	return "<input type='submit' value='Connect to MicroBit' id='connect' class='btn btn-primary' onclick='bleConnect();'>";
+	return "<input type='submit' value='Connect to MicroBit' id='connect' class='btn btn-success' onclick='bleConnect();'>";
 }
 
 function disconnectButton() {
 	return "<input type='submit' value='Disconnect from MicroBit' id='connect' class='btn btn-danger' onclick='bleDisconnect();'>";
 }
 
+function saveEditButtons() {
+	return "<input type='submit' value='Edit' class='btn btn-primary' onClick=\"onclick=window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary' onClick='saveData();'>";
+}
+
 function onResize() {
 	if (chart) { chart.draw(data, options);	}
+}
+
+function editUpdate() {
+	localStorage.row1=document.getElementById('row1Edit').value;
+	localStorage.row2=document.getElementById('row2Edit').value;
+	localStorage.row3=document.getElementById('row3Edit').value;
+	localStorage.style=document.getElementById('styleEdit').value;
+	window.opener.location.reload(true);
 }
 
 //---------------------------------------------------------------------------------------------------------
 // Panel configurations
 //---------------------------------------------------------------------------------------------------------
 
-function configPanels(command) {
-	for (var i=1; i<command.length; i++) {
-		configPanelsRow(command[i],i);
+function editField(row,val) {
+	document.write("<div class='editHeader'><b>Row "+row+"</b> - Select template</b>\n");
+	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>>\n");
+	document.write("<option value='' selected></option>\n");
+	
+	document.write("<option value='1'>Text field</option>\n");
+	document.write("<option value='2'>Value display</option>\n");
+	document.write("<option value='3'>Line graph</option>\n");
+	document.write("<option value='4'>Bar Graph</option>\n");
+	document.write("<option value='5'>Start/Stop buttons</option>\n");
+	document.write("<option value='6'>Reset button</option>\n");
+
+	document.write("</select></div>\n");
+	document.write("<textarea id='row"+row+"Edit' name='row"+row+"' rows='3' class='form-control'>"+val+"</textarea>");
+}
+
+function editStyle() {
+	document.write("<b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a>\n<textarea id='styleEdit' name='styleEdit' rows='8' class='form-control'>"+localStorage.style+"</textarea>\n");
+}
+
+function fillTemplate(row) {
+	switch (document.getElementById('select'+row).selectedIndex) {
+		case 1:
+			document.getElementById('row'+row+'Edit').value=textPanel();
+			break;
+		case 2:
+			document.getElementById('row'+row+'Edit').value=valuePanel();
+			break;
+		case 3:
+			document.getElementById('row'+row+'Edit').value=graphLine();
+			break;
+		case 4:
+			document.getElementById('row'+row+'Edit').value=graphBar();
+			break;
+		case 5:
+			document.getElementById('row'+row+'Edit').value=startStopButtons();
+			break;
+		case 6:
+			document.getElementById('row'+row+'Edit').value=resetButton();
+			break;
+		default:
+			document.getElementById('row'+row+'Edit').value="Error";
 	}
 }
 
-function configPanelsRow(what, index) {
-	var row="row"+index;
-	
-	switch(what) {
-		case "t1":
-			document.getElementById(row).innerHTML=textPanel();
+function defaultStyle() {
+	return "<style>\n#row1 {\n\tbackground-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n text-align: center;\n padding: 10px;\n}\n</style>\n";
+}
+
+function defaultPanel(row) {
+	switch (row) {
+		case 1:
+			return textPanel();
 			break;
-		case "v1":
-			document.getElementById(row).innerHTML=oneValuesPanel();
+		case 2:
+			return graphBar();
 			break;
-		case "v2":
-			document.getElementById(row).innerHTML=twoValuesPanel();
-			break;
-		case "cb":
-			document.getElementById(row).innerHTML=graphBar();
-			break;
-		case "cl":
-			document.getElementById(row).innerHTML=graphLine();
-			break;
-		case "bctl":
-			document.getElementById(row).innerHTML=startStopButtons();
-			break;
-		case "brst":
-			document.getElementById(row).innerHTML=resetButton();
+		case 3:
+			return resetButton();
 			break;
 		default:
-			document.getElementById("msg").innerHTML="<b>Unknown configuration</b> - "+what;
+			return "Error";
 	}
 }
 
 function startStopButtons(){
-	return "<td colspan='2' class='text-center bg-light'><input type='submit' value='Start' class='btn btn-success' onClick='uartSend(this.value);'><input type='submit' value='Stop' class='btn btn-danger m-2' onClick='uartSend(this.value);'></td>";
+	return "<input type='submit' value='Start' class='btn btn-success' onClick='uartSend(this.value);'>\n<input type='submit' value='Stop' class='btn btn-danger' onClick='uartSend(this.value);'>";
 }
 
 function resetButton(){
-	return "<td colspan='2' class='text-center bg-light'><input type='submit' value='Reset' class='btn btn-primary' onClick='uartSend(this.value);'></td>";
+	return "<input type='submit' value='Reset' class='btn btn-primary' onClick='uartSend(this.value);'>";
 }
 
-function twoValuesPanel() {
-	return "<td class='text-center w-50'><h4 id='lA'>&nbsp;</h4><h4 class='display-4'><b><span id='A'>&nbsp;</span></b></h4></td><td class='text-center w-50'><h4 id='lB'>&nbsp;</h4><h4 class='display-4'><b><span id='B'>&nbsp;</span></b></h4></td>";
-}
-
-function oneValuesPanel() {
-	return "<td colspan='2' class='text-center'><h4 id='lA'>&nbsp;</h4><h4 class='display-4'><b><span id='A'>&nbsp;</span></b></h4></td>";
+function valuePanel() {
+	return "<h4 id='lab'>Value</h4>\n<h4 class='display-4' id='val'>0</h4>";
 }
 
 function textPanel() {
-	return "<td colspan='2' class='text-center bg-light p-4'><h1 id='tA'></h1></td>";
+	return "<h1 id='txt'>Title</h1>";
 }
 
 function graphLine() {
-	google.charts.setOnLoadCallback(drawBasicLine);
-	ctype='line';
-
-	return "<td colspan='2' class='text-center' height='400px'><h4 id='cT'>&nbsp;</h4><div id='chart_div'></div></td></tr>";
+	return "<h4 id='cT'>Title</h4>\n<div id='chartLine_div'>Graph shows here</div>";
 }
 
 function graphBar() {
-	google.charts.setOnLoadCallback(drawBasicBar);
-	ctype='bar';
-	return "<td colspan='2' class='text-center' height='400px'><h4 id='cT'>&nbsp;</h4><div id='chart_div'></div></td></tr>";
+	return "<h4 id='cT'>Title</h4>\n<div id='chartBar_div'>Graph shows here</div>";
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -105,18 +181,12 @@ function graphBar() {
 function onDisconnected(event) {
 	document.getElementById("msg").innerHTML="<b>Bluetooth disconnected</b>";
 	document.getElementById("ble").innerHTML=connectButton();
-	document.getElementById("row1").innerHTML="<td colspan='2' class='text-center'><h4>Waiting for MicroBit ..</h4></td>";
-	document.getElementById("row2").innerHTML="";
-	document.getElementById("row3").innerHTML="";
 }
 
 function uartCallback (event) {
 	response=event.detail.replace(/(\r\n|\n|\r)/gm, "").split(":");
 	
 	switch(response[0]) {
-		case "config":
-			configPanels(response);
-			break;
 		case "cL":
 			setColumns(response);
 			break;
@@ -187,21 +257,30 @@ async function bleConnect() {
 // Google chart related routines
 //---------------------------------------------------------------------------------------------------------
 
+function initializeChart() {
+	
+	if(document.getElementById("chartLine_div")) {
+		google.charts.setOnLoadCallback(drawBasicLine);
+		ctype='line';
+	}
+	
+	if(document.getElementById("chartBar_div")) {
+		google.charts.setOnLoadCallback(drawBasicBar);
+		ctype='bar';
+	}
+}
+
 function setColumns(fields) {
 	const colors=['color: #4285F4','color: #DB4437','color: #F4B400','color: #0F9D58'];
 	
 	if (data) {
 		switch (ctype) {
 			case "line":
-				fields[0]='Time';
-				for (var i=0; i<fields.length; i++) {
+				for (var i=2; i<fields.length; i++) {
 					data.addColumn('number', fields[i]);
 				}
 				break;
 			case "bar":
-				data.addColumn('string', 'Value');
-				data.addColumn('number', '0');	
-				data.addColumn({type:'string',role:'style'});
 				for (var i=1; i<fields.length; i++) {
 					data.addRow([fields[i],0,colors[i-1]]);
 				}
@@ -237,18 +316,24 @@ function updateRows(values) {
 
 function drawBasicLine() {
 	data = new google.visualization.DataTable();
+	data.addColumn('number', 'Time');
+	data.addColumn('number', 'x');
 
 	options = {
 		height: 350,
 		chartArea: 	{width: '80%', height: '80%'},
-		hAxis: 		{ title: 'Time', maxValue: bufferSize}
+		hAxis: 		{title: 'Time', maxValue: bufferSize}
 	};
 
-	chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	chart = new google.visualization.LineChart(document.getElementById('chartLine_div'));
+	chart.draw(data, options);
 }
 
 function drawBasicBar() {
 	data = new google.visualization.DataTable();
+	data.addColumn('string', 'Value');
+	data.addColumn('number', '0');	
+	data.addColumn({type:'string',role:'style'});
 	
 	options = {
 		height: 350,
@@ -257,6 +342,6 @@ function drawBasicBar() {
 		legend: 	{position: 'none'}
 	};
 
-	chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	chart = new google.visualization.BarChart(document.getElementById('chartBar_div'));
 	chart.draw(data, options);
 }

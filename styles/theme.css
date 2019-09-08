@@ -1,0 +1,26 @@
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+.header {
+	background-color: #DDDDDD;
+	padding: 10px;
+	margin: 5px;
+}	
+
+.footer {
+	background-color: #DDDDDD;
+	padding: 10px;
+	margin: 5px;
+}
+
+.content {
+	padding: 0px;
+	margin: 5px;
+}
+
+.editHeader {
+	padding-top: 5px;
+	margin: 5px;
+}

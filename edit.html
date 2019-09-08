@@ -7,7 +7,6 @@
 	<script>
 		google.charts.load('current', {'packages':['corechart']});
 	</script>
-	<script type="text/javascript" src="https://microbit.orcsgirls.org/dist/microbit.umd.js"></script>
 	<script type="text/javascript" src="https://microbit.orcsgirls.org/scripts/helpers.js"></script>
 </head>
 
@@ -19,25 +18,24 @@
 <div class="container-fluid h-100 p-1" role="main">
 
 <div class="header">
-	<span id="ble" class="mr-3"></span>
-	<span id="editBtn"></span>
-	<input type="submit" value="Help" id="btn-help" class="btn btn-primary" onClick="onclick=window.open('help.html','MicroBitHelp')">
-
+	<input type="submit" value="Update" class="btn btn-primary" onClick="editUpdate();">
 	<img src="https://microbit.orcsgirls.org/images/orcsgirls.png" height="40px" align="right">
 </div>
 
-<div id="style">
-</div>
-
 <div class="content">
-<div id="row1">&nbsp;</div>
-<div id="row2">&nbsp;</div>
-<div id="row3">&nbsp;</div>
+<script>
+	editField(1,localStorage.row1);
+	editField(2,localStorage.row2);
+	editField(3,localStorage.row3);
+	editStyle(localStorage.style);
+</script>
+
 </div>
 
-<div class="footer" id="msg">&nbsp;</div>
+<div class="footer" id="msg">
+	&nbsp;
+</div>
 
-<script type="text/javascript">setup();</script>
 </div>
 </body>
 </html>
