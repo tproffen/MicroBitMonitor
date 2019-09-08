@@ -18,10 +18,15 @@ function setup() {
 	if (filename==="index.html") {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
 
-		if(!localStorage.row1) {localStorage.row1=document.getElementById("row1").innerHTML};
-		if(!localStorage.row2) {localStorage.row2=document.getElementById("row2").innerHTML};
-		if(!localStorage.row3) {localStorage.row3=document.getElementById("row3").innerHTML};
-		if(!localStorage.style) {localStorage.style=document.getElementById("style").innerHTML};
+		if(!localStorage.row1) {
+			localStorage.row1=document.getElementById("row1").innerHTML;
+			localStorage.row2=document.getElementById("row2").innerHTML;
+			localStorage.row3=document.getElementById("row3").innerHTML;
+			localStorage.style=document.getElementById("style").innerHTML;
+			document.getElementById("msg").innerHTML="<b>Use the Edit button to customize the display</b>"
+		} else {
+			document.getElementById("msg").innerHTML="<b>Layout loaded</b>"
+		}
 
 		document.getElementById("row1").innerHTML=localStorage.row1;
 		document.getElementById("row2").innerHTML=localStorage.row2;
