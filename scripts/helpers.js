@@ -11,18 +11,25 @@ var index=0;
 function setup() {
 	window.addEventListener("resize", onResize);
 	document.getElementById("ble").innerHTML=connectButton();
-	document.getElementById("editBtn").innerHTML=saveEditButtons();
+	
+	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/')+1);
+	document.getElementById("msg").innerHTML="File: " +filename;
+	
+	if (filename==="index.html") {
+		document.getElementById("editBtn").innerHTML=saveEditButtons();
 
-	if(!localStorage.row1) {localStorage.row1=document.getElementById("row1").innerHTML};
-	if(!localStorage.row2) {localStorage.row2=document.getElementById("row2").innerHTML};
-	if(!localStorage.row3) {localStorage.row3=document.getElementById("row3").innerHTML};
-	if(!localStorage.style) {localStorage.style=document.getElementById("style").innerHTML};
+		if(!localStorage.row1) {localStorage.row1=document.getElementById("row1").innerHTML};
+		if(!localStorage.row2) {localStorage.row2=document.getElementById("row2").innerHTML};
+		if(!localStorage.row3) {localStorage.row3=document.getElementById("row3").innerHTML};
+		if(!localStorage.style) {localStorage.style=document.getElementById("style").innerHTML};
 
-	document.getElementById("row1").innerHTML=localStorage.row1;
-	document.getElementById("row2").innerHTML=localStorage.row2;
-	document.getElementById("row3").innerHTML=localStorage.row3;
-	document.getElementById("style").innerHTML=localStorage.style;
-
+		document.getElementById("row1").innerHTML=localStorage.row1;
+		document.getElementById("row2").innerHTML=localStorage.row2;
+		document.getElementById("row3").innerHTML=localStorage.row3;
+		document.getElementById("style").innerHTML=localStorage.style;
+	}
+	
 	initializeChart();
 }
 
@@ -30,7 +37,7 @@ function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
 	document.getElementById("editBtn").innerHTML="";
-	
+	document.getElementById("msg").innerHTML="";
 	expandLinks(true);
 
 	var data=pageHeader()+"<body>"+document.getElementsByTagName("BODY")[0].innerHTML+"</body></html>";
@@ -49,6 +56,7 @@ function saveData() {
     window.URL.revokeObjectURL(url);
 
 	document.getElementById("editBtn").innerHTML=saveEditButtons();
+	document.getElementById("msg").innerHTML="File saved.";
 	expandLinks(false);	
 	initializeChart();
 }
