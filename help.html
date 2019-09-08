@@ -15,62 +15,65 @@
 	<hr>
 </div>
 
+<p><i>This is very much a work in progress. Expect changes and bugs :)</i></p>
+
 <h4>Prerequisites</h4>
 
-<p>The MicroBit monitor allows to display information and interact with a MicroBit connected via Bluetooth LE. Please note, that not all browsers and devices have web Bluetooth capabilities. The easiest way to get started is to work from one of these examples
+<p>The MicroBit monitor allows to display information and interact with a MicroBit connected via Bluetooth LE. Please note, that not all browsers and devices have web Bluetooth capabilities. The easiest way to get started is to work from one of this <a href="https://makecode.microbit.org/_6dcYxEbgwAyL" target="_blank">MicroBit template</a>. Also check out the <a href="examples/examples.html" target="_blank">examples page</a>.
 
-<ul>
-<li><a href="https://makecode.microbit.org/_11ridfDihguL">Accelerometer</a></li>
-<li><a href="https://makecode.microbit.org/_Wryii6XkdRof">Exercise monitor</a></li>
-<li><a href="https://makecode.microbit.org/_36e6Rr5DXFTk">Temperature plotter</a></li>
-</ul>
-</p>
-
-<h4>Configuration</h4>
+<h4>Communication</h4>
 
 <p>The MicroBit communicates with the web browser via BLE UART commands. The commands are strings in general formed as 
-<tt>command:parameter:..</tt> Note that the maximum string length that can be submitted it 20 characters requiring short 
-commands. Here is a list of currently implemented commands. 
+<tt>command:parameter:..</tt> Note that the <b>maximum string length is 20 characters</b> requiring short 
+commands. The value of <tt>command</tt> can either be any string matching the <i>id</i> od any HTML tag on the monitor page 
+or one of the special command related to charts displayed on the web page.
+</p>
+
+<h4>Configuring the page</h4>
+<p>
+The monitor web page can be configured using the <b>Edit</b> button. The monitor screen is divided into three rows that span the page width. The
+HTML code for each row can be modified on the editor page. A number of row tempates can be selected using the drop down menu. In order to update
+any values, the <i>id</i> used in the HTML tags much match the <tt>command</tt> sent by the MicroBit. For example, this HTML code for a value display
+
+<pre>
+	&lt;h4 id='<b>lab</b>'&gt;Value&lt;/h4>
+	&lt;h4 class='display-4'id='<b>val</b>'&gt;0&lt;/h4&gt;
+</pre>
+
+would allow the MicroBit to change the title by sending the command <tt>lab:new title</tt> and update the value using <tt>val:123</tt>. 
+If the same <i>id</i> is used in multiple locations, all values will be updates.
+</p>
+
+<h4>Updating and saving</h4>
+<p>
+Once you click <b>Update</b> the current HTML and CSS codes from the edtor will be used to render the monitor page. This information is stored 
+in your browser and will be valid for the same browser on the same computer. The botton <b>Delete</b> will delete the current configurate and 
+return the monitor page to the default layout. The editor window will be closed. The <b>Save</b> button on the monitor page will download 
+a local version of the current page.
+</p>
+
+<h4>Charts</h4>
+<p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the
+drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt> or 
+<tt>&lt;div id="<b>chartLine_div</b>"&gt;&lt;/div&gt;</tt>tags. The chart specific commands are summarized 
+in the table below.
 </p>
 
 <table class="table">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
-<tr><td><tt>config:row1:row2:row3</tt></td>
-    <td>This sets the configuration of the screen. This needs to be the first command right after the browser 
-	send the string 'ready'. Rows 2 and 3 are optional. Each parameter row can take one of the values below 
-	representing different panels to be displayed.</td></tr>
-
-<tr class="bg-light"><td colspan="2">Panel commands</td></tr>
-
-<tr><td><tt>t1</tt></td><td>Created a full width text panel. The command <tt>tA:text</tt> will change the text on 
-    the web page to <tt>text</tt></td></tr>
-<tr><td><tt>v1</tt></td><td>Created a full width panel to display a label and value. The command <tt>lA:label</tt> will 
-    change the label on the web page to <tt>label</tt>. Similarly <tt>A:value</tt> will change the value to <tt>value</tt>
-	</td></tr>
-<tr><td><tt>v2</tt></td><td>Created a two panel across a row to display a label and value. The command <tt>lA:label</tt> will 
-    change the left label and <tt>lB:label</tt> on the web page to <tt>label</tt>. Similarly <tt>A:value</tt> will change the 
-	value to <tt>value</tt> on the left side and <tt>B:value</tt> will do the same for the right panel.
-	</td></tr>
-<tr><td><tt>bctl</tt></td><td>Created a full width panel with a <em>Start</em> and <em>Stop</em> button. Each button will 
-	send its value (e.g. Start) to the MicroBit when pressed.</td></tr>
-<tr><td><tt>brst</tt></td><td>Created a full width panel with a <em>Reset</em> button.</td></tr>
+<tr class="bg-light"><td colspan="2">Chart types</td></tr>
+<tr><td>Bar chart</td><td>This will create a vertical bar chart updating the values as they are received.</td></tr>
+<tr><td>Line chart</td><td>This will create a line chart. Values will be added to the line as they are received. 
+	Once the maximum number of values for the chart is received, the chart will scroll horizontally.</td></tr>
 
 <tr class="bg-light"><td colspan="2">Chart commands</td></tr>
-
-<tr><td><tt>cb</tt></td><td>This will create a full width bar chart using Google charts. The command <tt>cL:l1:l2:..</tt>
-	sets the labels for the data columns to <tt>l1, l2</tt> and so on. This needs to be the first command after
-	the configuration as it sets up the data dimensions. The data itself is sent using <tt>cV:v1:v2,..</tt>. The
-	number of values needs to match the number of labels. In case of the bar chart, only the last values are shown. The
-	command <tt>ct:title</tt> allows to set the chart title and <tt>cMax:value</tt> and <tt>cMin:value</tt> are
-	setting the range of the chart.</td></tr>
-	
-<tr><td><tt>ct</tt></td><td>This will create a full width line chart using Google charts. the commands are the same
-	as for the bar chart. The only difference is that data are added to the line graph until the buffer size is reach 
-	and future data will scroll across the chart.</td></tr>
-
+<tr><td><tt>cL:l1:l2:..</tt></td><td>This will set the labels for the data columns to <tt>l1, l2, ..</tt> and so on. It 
+	also determined the number of values the monitor page will expect for plotting.</td></tr>	
+<tr><td><tt>cV:v1:v2:..</tt></td><td>This will add or update the data values given by <tt>v1, v2, ..</tt>.
+	Note that the number of values needs to match the number of labels set with the <tt>cL</tt> command.</td></tr>
+<tr><td><tt>cMin:min</tt></td><td>Sets the minimum value of the chart range to <tt>min</tt>.</td></tr>
+<tr><td><tt>cMax:max</tt></td><td>Sets the maximum value of the chart range to <tt>max</tt>.</td></tr>
 </table>
-
-<p>This is very much a work in progress ..</p>
 
 <p>
 <hr>

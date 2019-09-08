@@ -1,0 +1,69 @@
+<head>
+    <title>ORCS Girls - MicroBit Monitor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script>
+		google.charts.load('current', {'packages':['corechart']});
+	</script><script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/46.2/loader.js"></script>
+	<script id="microbitlink" type="text/javascript" src="https://microbit.orcsgirls.org/dist/microbit.umd.js"></script>
+	<script id="helperslink" type="text/javascript" src="https://microbit.orcsgirls.org/scripts/helpers.js"></script>
+</head>
+
+<body>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link id="stylelink" rel="stylesheet" href="https://microbit.orcsgirls.org/styles/theme.css">
+
+<div class="container-fluid h-100" role="main">
+<div class="row">
+	<div class="header col">
+		<span id="ble" class="mr-3"><input type="submit" value="Disconnect" id="connect" class="btn btn-danger btn-sm" onclick="bleDisconnect();"></span>
+		<span id="editBtn"></span>
+		<input type="submit" value="Help" class="btn btn-primary btn-sm" onclick="onclick=window.open('https://microbit.orcsgirls.org/help.html','MicroBitHelp')">
+		<img id="imglink" src="https://microbit.orcsgirls.org/images/orcsgirls.png" height="30px" align="right">
+	</div>
+</div>
+
+<div id="style"><style>
+#row1 {
+ background-color: #EEEEEE;
+ text-align: center;
+ padding: 10px;
+}
+#row2 {
+ text-align: center;
+ padding: 10px;
+}
+
+#row3 {
+  background-color: #EEEEEE;
+ text-align: center;
+ padding: 10px;
+}
+</style>
+</div>
+
+<div class="content">
+
+<div class="row"><div id="row1" class="col"><h1 id="txt">Sensing orientation</h1>
+</div></div>
+
+<div class="row"><div id="row2" class="col"><h4 id="cT">Accelerometer</h4>
+<div id="chartBar_div"></div></div></div>
+
+<div class="row"><div id="row3" class="col"><input type="submit" value="Start" class="btn btn-success" onclick="uartSend(this.value);">
+<input type="submit" value="Stop" class="btn btn-danger" onclick="uartSend(this.value);"></div></div>
+
+</div>
+
+<div class="row">
+	<div class="footer col" id="msg"><b>Connected to MicroBit</b></div>
+</div>
+
+<script type="text/javascript">setup();</script>
+</div>
+
+
+
+</body>

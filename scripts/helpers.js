@@ -29,10 +29,11 @@ function setup() {
 function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
-
+	document.getElementById("editBtn").innerHTML="";
+	
 	expandLinks(true);
 
-	var data=document.documentElement.innerHTML;
+	var data=pageHeader()+"<body>"+document.getElementsByTagName("BODY")[0].innerHTML+"</body></html>";
 	var fileName="MicroBitMonitor.html";
 	
     var a = document.createElement("a");
@@ -47,8 +48,13 @@ function saveData() {
     a.click();
     window.URL.revokeObjectURL(url);
 
+	document.getElementById("editBtn").innerHTML=saveEditButtons();
 	expandLinks(false);	
 	initializeChart();
+}
+
+function pageHeader() {
+	return "<html><head><title>ORCS Girls - MicroBit Monitor</title><meta name='viewport' content='width=device-width, initial-scale=1'><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script><script>google.charts.load('current', {'packages':['corechart']});</script></head>";
 }
 
 function expandLinks(flag) {
@@ -116,8 +122,8 @@ function editField(row,val) {
 	
 	document.write("<option value='1'>Text field</option>\n");
 	document.write("<option value='2'>Value display</option>\n");
-	document.write("<option value='3'>Line graph</option>\n");
-	document.write("<option value='4'>Bar Graph</option>\n");
+	document.write("<option value='3'>Line chart</option>\n");
+	document.write("<option value='4'>Bar chart</option>\n");
 	document.write("<option value='5'>Start/Stop buttons</option>\n");
 	document.write("<option value='6'>Reset button</option>\n");
 
@@ -221,13 +227,13 @@ function uartCallback (event) {
 			}
 			break;
 		case "cMax":
-			if(chart) {
+			if(chart && (ctype=="bar")) {
 				options.hAxis.maxValue=response[1];
 				chart.draw(data, options);
 			}
 			break;
 		case "cMin":
-			if(chart) {
+			if(chart && (ctype=="bar")) {
 				options.hAxis.minValue=response[1];
 				chart.draw(data, options);
 			}
