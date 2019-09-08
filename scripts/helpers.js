@@ -14,7 +14,6 @@ function setup() {
 	
 	var url = window.location.pathname;
 	var filename = url.substring(url.lastIndexOf('/')+1);
-	document.getElementById("msg").innerHTML="File: " +filename;
 	
 	if (filename==="index.html") {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
