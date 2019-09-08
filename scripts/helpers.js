@@ -9,31 +9,23 @@ var index=0;
 //---------------------------------------------------------------------------------------------------------
 
 function setup() {
-	window.addEventListener("resize", onResize);
-	document.getElementById("ble").innerHTML=connectButton();
-	
 	var url = window.location.pathname;
 	var filename = url.substring(url.lastIndexOf('/')+1);
 	
 	if (filename==="index.html") {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
 
-		if(!localStorage.row1) {
-			localStorage.row1=document.getElementById("row1").innerHTML;
-			localStorage.row2=document.getElementById("row2").innerHTML;
-			localStorage.row3=document.getElementById("row3").innerHTML;
-			localStorage.style=document.getElementById("style").innerHTML;
-			document.getElementById("msg").innerHTML="<b>Use the Edit button to customize the display</b>"
-		} else {
+		if(localStorage.row1) {
+			document.getElementById("row1").innerHTML=localStorage.row1;
+			document.getElementById("row2").innerHTML=localStorage.row2;
+			document.getElementById("row3").innerHTML=localStorage.row3;
+			document.getElementById("style").innerHTML=localStorage.style;
 			document.getElementById("msg").innerHTML="<b>Layout loaded</b>"
 		}
-
-		document.getElementById("row1").innerHTML=localStorage.row1;
-		document.getElementById("row2").innerHTML=localStorage.row2;
-		document.getElementById("row3").innerHTML=localStorage.row3;
-		document.getElementById("style").innerHTML=localStorage.style;
 	}
 	
+	window.addEventListener("resize", onResize);
+	document.getElementById("ble").innerHTML=connectButton();
 	initializeChart();
 }
 
@@ -101,18 +93,6 @@ function editUpdate() {
 	localStorage.row3=document.getElementById('row3Edit').value;
 	localStorage.style=document.getElementById('styleEdit').value;
 	reloadMain();
-}
-
-function editDelete() {
-	if (confirm("You are about to delete the current MicroBit Monitor layout and close this window.")) {
-		localStorage.row1='';
-		localStorage.row2='';
-		localStorage.row3='';
-		localStorage.style='';
-
-		reloadMain();
-		window.close();
-	}
 }
 
 function reloadMain() {
@@ -250,6 +230,12 @@ function uartCallback (event) {
 				chart.draw(data, options);
 			}
 			break;
+		case "cHeight":
+			if(chart) {
+				options.height=response[1];
+				chart.draw(data, options);
+			}
+			break;		
 		default:
 			try {
 				document.getElementById(response[0]).innerHTML=response[1];
