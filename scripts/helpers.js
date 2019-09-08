@@ -275,6 +275,7 @@ async function bleConnect() {
 				document.getElementById("ble").innerHTML=disconnectButton();
 				uartSend("Ready");
 			}
+		initializeChart();
 		}	
 	} catch (err) {
 		document.getElementById("msg").innerHTML="<b>Bluetooth not available.</b> - "+err;
