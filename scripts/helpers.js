@@ -11,7 +11,9 @@ var index=0;
 function setup() {
 	window.addEventListener("resize", onResize);
 	document.getElementById("ble").innerHTML=connectButton();
-	document.getElementById("editBtn").innerHTML=saveEditButtons();
+	if (window.location.protocol != "file:") {
+		document.getElementById("editBtn").innerHTML=saveEditButtons();
+	}
 
 	if(!localStorage.row1) {localStorage.row1=defaultPanel(1)};
 	if(!localStorage.row2) {localStorage.row2=defaultPanel(2)};
@@ -29,7 +31,7 @@ function setup() {
 function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
-	document.getElementById("editBtn").innerHTML="&nbsp";
+	document.getElementById("editBtn").innerHTML="";
 
 	var data=document.documentElement.innerHTML;
 	var fileName="MicroBitMonitor.html";
