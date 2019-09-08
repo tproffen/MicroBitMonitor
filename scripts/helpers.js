@@ -12,7 +12,7 @@ function setup() {
 	var url = window.location.pathname;
 	var filename = url.substring(url.lastIndexOf('/')+1);
 	
-	if (filename==="index.html") {
+	if (!filename || filename==="index.html") {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
 
 		if(localStorage.row1) {
