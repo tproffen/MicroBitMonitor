@@ -29,7 +29,7 @@ function setup() {
 function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
-	document.getElementById("editBtn").innerHTML="";
+	document.getElementById("editBtn").innerHTML="&nbsp";
 
 	var data=document.documentElement.innerHTML;
 	var fileName="MicroBitMonitor.html";
