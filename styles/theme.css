@@ -4,23 +4,31 @@ body {
 }
 
 .header {
-	background-color: #DDDDDD;
+	background-color: #b8cff5;
 	padding: 10px;
 	margin: 5px;
 }	
 
 .footer {
-	background-color: #DDDDDD;
+	background-color: #b8cff5;
 	padding: 10px;
 	margin: 5px;
 }
 
 .content {
+	margin: 0px 5px;
 	padding: 0px;
-	margin: 5px;
+	border-style: solid;
+	border-color: #b8cff5;
+	border-width: 1px;
 }
 
 .editHeader {
-	padding-top: 5px;
-	margin: 5px;
+	background-color: #eeeeee;
+	margin-top: 5px;
+	padding: 5px;
+}
+
+.row {
+	margin: 0px;
 }

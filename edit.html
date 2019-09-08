@@ -7,33 +7,38 @@
 	<script>
 		google.charts.load('current', {'packages':['corechart']});
 	</script>
-	<script type="text/javascript" src="https://microbit.orcsgirls.org/scripts/helpers.js"></script>
+	<script type="text/javascript" src="scripts/helpers.js"></script>
 </head>
 
 <body>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="https://microbit.orcsgirls.org/styles/theme.css">
+<link rel="stylesheet" href="styles/theme.css">
 
-<div class="container-fluid h-100 p-1" role="main">
+<div class="container-fluid h-100" role="main">
 
-<div class="header">
-	<input type="submit" value="Update" class="btn btn-primary" onClick="editUpdate();">
-	<img src="https://microbit.orcsgirls.org/images/orcsgirls.png" height="40px" align="right">
+<div class="row">
+	<div class="header col">
+		<input type="submit" value="Update" class="btn btn-primary btn-sm" onClick="editUpdate();">
+		<input type="submit" value="Delete" class="btn btn-danger btn-sm" onClick="editDelete();">
+		<img src="images/orcsgirls.png" height="30px" align="right">
+	</div>
 </div>
 
-<div class="content">
-<script>
+<div class="row">
+	<div class="content col p-2">
+	<div class='editMain'><h4>Edit Monitor HTML and CSS</h4></div>
+	<script>
 	editField(1,localStorage.row1);
 	editField(2,localStorage.row2);
 	editField(3,localStorage.row3);
 	editStyle(localStorage.style);
-</script>
-
+	</script>
+	</div>
 </div>
 
-<div class="footer" id="msg">
-	&nbsp;
+<div class="row">
+	<div class="footer col" id="msg">&nbsp;</div>
 </div>
 
 </div>

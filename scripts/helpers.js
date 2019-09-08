@@ -11,14 +11,12 @@ var index=0;
 function setup() {
 	window.addEventListener("resize", onResize);
 	document.getElementById("ble").innerHTML=connectButton();
-	if (window.location.protocol != "file:") {
-		document.getElementById("editBtn").innerHTML=saveEditButtons();
-	}
+	document.getElementById("editBtn").innerHTML=saveEditButtons();
 
-	if(!localStorage.row1) {localStorage.row1=defaultPanel(1)};
-	if(!localStorage.row2) {localStorage.row2=defaultPanel(2)};
-	if(!localStorage.row3) {localStorage.row3=defaultPanel(3)};
-	if(!localStorage.style) {localStorage.style=defaultStyle()};
+	if(!localStorage.row1) {localStorage.row1=document.getElementById("row1").innerHTML};
+	if(!localStorage.row2) {localStorage.row2=document.getElementById("row2").innerHTML};
+	if(!localStorage.row3) {localStorage.row3=document.getElementById("row3").innerHTML};
+	if(!localStorage.style) {localStorage.style=document.getElementById("style").innerHTML};
 
 	document.getElementById("row1").innerHTML=localStorage.row1;
 	document.getElementById("row2").innerHTML=localStorage.row2;
@@ -31,7 +29,8 @@ function setup() {
 function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
-	document.getElementById("editBtn").innerHTML="";
+
+	expandLinks(true);
 
 	var data=document.documentElement.innerHTML;
 	var fileName="MicroBitMonitor.html";
@@ -47,21 +46,31 @@ function saveData() {
     a.download = fileName;
     a.click();
     window.URL.revokeObjectURL(url);
-	
+
+	expandLinks(false);	
 	initializeChart();
-	document.getElementById("editBtn").innerHTML=saveEditButtons();
 }
 
+function expandLinks(flag) {
+	var prefix="";
+	
+	if (flag) {prefix="https://microbit.orcsgirls.org/";}
+	document.getElementById("imglink").src=prefix+"images/orcsgirls.png";
+	document.getElementById("helperslink").src=prefix+"scripts/helpers.js";
+	document.getElementById("microbitlink").src=prefix+"dist/microbit.umd.js";
+	document.getElementById("stylelink").href=prefix+"styles/theme.css";
+}
+		
 function connectButton() {
-	return "<input type='submit' value='Connect to MicroBit' id='connect' class='btn btn-success' onclick='bleConnect();'>";
+	return "<input type='submit' value='Connect' id='connect' class='btn btn-success btn-sm' onclick='bleConnect();'>";
 }
 
 function disconnectButton() {
-	return "<input type='submit' value='Disconnect from MicroBit' id='connect' class='btn btn-danger' onclick='bleDisconnect();'>";
+	return "<input type='submit' value='Disconnect' id='connect' class='btn btn-danger btn-sm' onclick='bleDisconnect();'>";
 }
 
 function saveEditButtons() {
-	return "<input type='submit' value='Edit' class='btn btn-primary' onClick=\"onclick=window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary' onClick='saveData();'>";
+	return "<input type='submit' value='Edit' class='btn btn-primary btn-sm' onClick=\"onclick=window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary btn-sm' onClick='saveData();'>";
 }
 
 function onResize() {
@@ -73,7 +82,27 @@ function editUpdate() {
 	localStorage.row2=document.getElementById('row2Edit').value;
 	localStorage.row3=document.getElementById('row3Edit').value;
 	localStorage.style=document.getElementById('styleEdit').value;
-	window.opener.location.reload(true);
+	reloadMain();
+}
+
+function editDelete() {
+	if (confirm("You are about to delete the current MicroBit Monitor layout and close this window.")) {
+		localStorage.row1='';
+		localStorage.row2='';
+		localStorage.row3='';
+		localStorage.style='';
+
+		reloadMain();
+		window.close();
+	}
+}
+
+function reloadMain() {
+	try { 
+		window.opener.location.reload(true); } catch (e) 
+	{ 
+		document.getElementById('msg').innerHTML="Reload monitor page manually.";
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -97,7 +126,7 @@ function editField(row,val) {
 }
 
 function editStyle() {
-	document.write("<b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a>\n<textarea id='styleEdit' name='styleEdit' rows='8' class='form-control'>"+localStorage.style+"</textarea>\n");
+	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a></div>\n<textarea id='styleEdit' name='styleEdit' rows='8' class='form-control'>"+localStorage.style+"</textarea>\n");
 }
 
 function fillTemplate(row) {
@@ -126,7 +155,7 @@ function fillTemplate(row) {
 }
 
 function defaultStyle() {
-	return "<style>\n#row1 {\n\tbackground-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n text-align: center;\n padding: 10px;\n}\n</style>\n";
+	return "<style>\n#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n text-align: center;\n padding: 10px;\n}\n</style>\n";
 }
 
 function defaultPanel(row) {
