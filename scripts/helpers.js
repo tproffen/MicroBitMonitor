@@ -24,7 +24,6 @@ function setup() {
 		}
 	}
 	
-	window.addEventListener("resize", onResize);
 	document.getElementById("ble").innerHTML=connectButton();
 	initializeChart();
 }
@@ -83,10 +82,6 @@ function saveEditButtons() {
 	return "<input type='submit' value='Edit' class='btn btn-primary btn-sm' onClick=\"onclick=window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary btn-sm' onClick='saveData();'>";
 }
 
-function onResize() {
-	if (chart) { chart.draw(data, options);	}
-}
-
 function editUpdate() {
 	localStorage.row1=document.getElementById('row1Edit').value;
 	localStorage.row2=document.getElementById('row2Edit').value;
@@ -114,17 +109,20 @@ function editField(row,val) {
 	
 	document.write("<option value='1'>Text field</option>\n");
 	document.write("<option value='2'>Value display</option>\n");
-	document.write("<option value='3'>Line chart</option>\n");
-	document.write("<option value='4'>Bar chart</option>\n");
-	document.write("<option value='5'>Start/Stop buttons</option>\n");
-	document.write("<option value='6'>Reset button</option>\n");
+	document.write("<option value='3'>Value display - row of 2</option>\n");
+	document.write("<option value='4'>Line chart</option>\n");
+	document.write("<option value='5'>Bar chart</option>\n");
+	document.write("<option value='6'>Value & Line chart</option>\n");
+	document.write("<option value='7'>Value & Bar chart</option>\n");
+	document.write("<option value='8'>Start/Stop buttons</option>\n");
+	document.write("<option value='9'>Reset button</option>\n");
 
 	document.write("</select></div>\n");
 	document.write("<textarea id='row"+row+"Edit' name='row"+row+"' rows='3' class='form-control'>"+val+"</textarea>");
 }
 
 function editStyle() {
-	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a></div>\n<textarea id='styleEdit' name='styleEdit' rows='8' class='form-control'>"+localStorage.style+"</textarea>\n");
+	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a></div>\n<textarea id='styleEdit' name='styleEdit' rows='6' class='form-control'>"+localStorage.style+"</textarea>\n");
 }
 
 function fillTemplate(row) {
@@ -136,15 +134,24 @@ function fillTemplate(row) {
 			document.getElementById('row'+row+'Edit').value=valuePanel();
 			break;
 		case 3:
-			document.getElementById('row'+row+'Edit').value=graphLine();
+			document.getElementById('row'+row+'Edit').value=valuePanelTwo();
 			break;
 		case 4:
-			document.getElementById('row'+row+'Edit').value=graphBar();
+			document.getElementById('row'+row+'Edit').value=graph('Line');
 			break;
 		case 5:
-			document.getElementById('row'+row+'Edit').value=startStopButtons();
+			document.getElementById('row'+row+'Edit').value=graph('Bar');
 			break;
 		case 6:
+			document.getElementById('row'+row+'Edit').value=valueGraph('Line');
+			break;
+		case 7:
+			document.getElementById('row'+row+'Edit').value=valueGraph('Bar');
+			break;
+		case 8:
+			document.getElementById('row'+row+'Edit').value=startStopButtons();
+			break;
+		case 9:
 			document.getElementById('row'+row+'Edit').value=resetButton();
 			break;
 		default:
@@ -153,7 +160,7 @@ function fillTemplate(row) {
 }
 
 function defaultStyle() {
-	return "<style>\n#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n text-align: center;\n padding: 10px;\n}\n</style>\n";
+	return "<style>\n#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n</style>\n";
 }
 
 function defaultPanel(row) {
@@ -181,19 +188,23 @@ function resetButton(){
 }
 
 function valuePanel() {
-	return "<h4 id='lab'>Value</h4>\n<h4 class='display-4' id='val'>0</h4>";
+	return "<h4 id='lab'>Value</h4><hr>\n<h1 class='display-1' id='val'>0</h1>";
+}
+
+function valuePanelTwo() {
+	return "<table><tr><td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td>\n<td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td></tr></table>";
 }
 
 function textPanel() {
 	return "<h1 id='txt'>Title</h1>";
 }
 
-function graphLine() {
-	return "<h4 id='cT'>Title</h4>\n<div id='chartLine_div'>Graph shows here</div>";
+function valueGraph(type) {
+	return "<table><tr><td><h4 id='lab'>Label</h4><hr><h1 class='display-1' id='val'>0</h1></td><td width='75%'><div id='chart"+type+"_div'>Graph shows here</div></td></tr></table>";
 }
 
-function graphBar() {
-	return "<h4 id='cT'>Title</h4>\n<div id='chartBar_div'>Graph shows here</div>";
+function graph(type) {
+	return "<h4 id='cT'>Title</h4>\n<div id='chart"+type+"_div'>Graph shows here</div>";
 }
 
 //---------------------------------------------------------------------------------------------------------
