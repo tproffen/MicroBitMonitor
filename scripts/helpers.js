@@ -360,9 +360,8 @@ function drawBasicLine() {
 	data.addColumn('number', 'x');
 
 	options = {
-		height: 350,
 		chartArea: 	{width: '80%', height: '80%'},
-		hAxis: 		{title: 'Time', maxValue: bufferSize}
+		hAxis: 		{title: 'Time'}
 	};
 
 	chart = new google.visualization.LineChart(document.getElementById('chartLine_div'));
@@ -376,7 +375,6 @@ function drawBasicBar() {
 	data.addColumn({type:'string',role:'style'});
 	
 	options = {
-		height: 350,
 		chartArea: 	{width: '80%', height: '80%'},
 		hAxis: 		{minValue: 0, maxValue: 10},
 		legend: 	{position: 'none'}
