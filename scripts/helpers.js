@@ -192,7 +192,7 @@ function valuePanel() {
 }
 
 function valuePanelTwo() {
-	return "<table><tr><td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td>\n<td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td></tr></table>";
+	return "<table><tr><td width='50%'><h4 id='lab1'>Value</h4><hr><h1 class='display-1' id='val1'>0</h1></td>\n<td width='50%'><h4 id='lab2'>Value</h4><hr><h1 class='display-1' id='val2'>0</h1></td></tr></table>";
 }
 
 function textPanel() {
