@@ -16,10 +16,10 @@ function setup() {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
 
 		if(localStorage.row1) {
-			document.getElementById("row1").innerHTML=localStorage.row1;
-			document.getElementById("row2").innerHTML=localStorage.row2;
-			document.getElementById("row3").innerHTML=localStorage.row3;
-			document.getElementById("style").innerHTML=localStorage.style;
+			document.getElementById("row1").innerHTML=DOMPurify.sanitize(localStorage.row1);
+			document.getElementById("row2").innerHTML=DOMPurify.sanitize(localStorage.row2);
+			document.getElementById("row3").innerHTML=DOMPurify.sanitize(localStorage.row3);
+			document.getElementById("style").innerHTML="<style>\n"+localStorage.style+"\n</style>\n";
 			document.getElementById("msg").innerHTML="<b>Layout loaded</b>"
 		}
 	}
@@ -67,6 +67,7 @@ function expandLinks(flag) {
 	document.getElementById("imglink").src=prefix+"images/orcsgirls.png";
 	document.getElementById("helperslink").src=prefix+"scripts/helpers.js";
 	document.getElementById("microbitlink").src=prefix+"dist/microbit.umd.js";
+	document.getElementById("purifylink").src=prefix+"dist/purify.min.js";
 	document.getElementById("stylelink").href=prefix+"styles/theme.css";
 }
 		
@@ -86,7 +87,8 @@ function editUpdate() {
 	localStorage.row1=document.getElementById('row1Edit').value;
 	localStorage.row2=document.getElementById('row2Edit').value;
 	localStorage.row3=document.getElementById('row3Edit').value;
-	localStorage.style=document.getElementById('styleEdit').value;
+	
+	localStorage.style=document.getElementById('styleEdit').value.replace(/<.style>/g, "");
 	reloadMain();
 }
 
@@ -160,7 +162,7 @@ function fillTemplate(row) {
 }
 
 function defaultStyle() {
-	return "<style>\n#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n</style>\n";
+	return "#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}";
 }
 
 function defaultPanel(row) {
@@ -360,6 +362,7 @@ function drawBasicLine() {
 	data.addColumn('number', 'x');
 
 	options = {
+		height:		400,
 		chartArea: 	{width: '80%', height: '80%'},
 		hAxis: 		{title: 'Time'}
 	};
@@ -375,6 +378,7 @@ function drawBasicBar() {
 	data.addColumn({type:'string',role:'style'});
 	
 	options = {
+		height:		400,
 		chartArea: 	{width: '80%', height: '80%'},
 		hAxis: 		{minValue: 0, maxValue: 10},
 		legend: 	{position: 'none'}
