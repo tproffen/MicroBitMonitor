@@ -38,6 +38,11 @@ body {
 	height: 400px;
 }
 
+#timer_div {
+	font-family: monospace; 
+	font-size: 48px;
+}
+
 table {
 	margin: 0px;
 	padding: 0px;

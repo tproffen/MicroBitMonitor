@@ -1,6 +1,7 @@
 const bufferSize=100;
 
 var data, chart, options;
+var clock, clocktimer, clockID;
 var device, services, ctype;
 var index=0;
 
@@ -26,6 +27,23 @@ function setup() {
 	
 	document.getElementById("ble").innerHTML=connectButton();
 	initializeChart();
+	initializeTimer();
+	buttonCallbacks();
+	buttonStatusToggle(true);
+}
+
+function buttonCallbacks() {
+	var btns = document.getElementsByClassName("btn-microbit");
+	for (var i = 0; i < btns.length; i++) {
+		btns[i].onclick = function() { uartSend(this.value); };
+	}
+}
+
+function buttonStatusToggle(disabled) {
+	var btns = document.getElementsByClassName("btn-microbit");
+	for (var i = 0; i < btns.length; i++) {
+		btns[i].disabled=disabled;
+	}
 }
 
 function saveData() {
@@ -109,15 +127,16 @@ function editField(row,val) {
 	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>>\n");
 	document.write("<option value='' selected></option>\n");
 	
-	document.write("<option value='1'>Text field</option>\n");
-	document.write("<option value='2'>Value display</option>\n");
-	document.write("<option value='3'>Value display - row of 2</option>\n");
-	document.write("<option value='4'>Line chart</option>\n");
-	document.write("<option value='5'>Bar chart</option>\n");
-	document.write("<option value='6'>Value & Line chart</option>\n");
-	document.write("<option value='7'>Value & Bar chart</option>\n");
-	document.write("<option value='8'>Start/Stop buttons</option>\n");
-	document.write("<option value='9'>Reset button</option>\n");
+	document.write("<option value='t'>Text field</option>\n");
+	document.write("<option value='v'>Value display</option>\n");
+	document.write("<option value='v2'>Value display - row of 2</option>\n");
+	document.write("<option value='lc'>Line chart</option>\n");
+	document.write("<option value='bc'>Bar chart</option>\n");
+	document.write("<option value='vlc'>Value & Line chart</option>\n");
+	document.write("<option value='vbc'>Value & Bar chart</option>\n");
+	document.write("<option value='ti'>Timer display</option>\n");
+	document.write("<option value='sb'>Start/Stop buttons</option>\n");
+	document.write("<option value='rb'>Reset button</option>\n");
 
 	document.write("</select></div>\n");
 	document.write("<textarea id='row"+row+"Edit' name='row"+row+"' rows='3' class='form-control'>"+val+"</textarea>");
@@ -128,33 +147,37 @@ function editStyle() {
 }
 
 function fillTemplate(row) {
-	switch (document.getElementById('select'+row).selectedIndex) {
-		case 1:
+	var choice=document.getElementById('select'+row)[document.getElementById('select'+row).selectedIndex].value;	
+	switch (choice) {
+		case 't':
 			document.getElementById('row'+row+'Edit').value=textPanel();
 			break;
-		case 2:
+		case 'v':
 			document.getElementById('row'+row+'Edit').value=valuePanel();
 			break;
-		case 3:
+		case 'v2':
 			document.getElementById('row'+row+'Edit').value=valuePanelTwo();
 			break;
-		case 4:
+		case 'lc':
 			document.getElementById('row'+row+'Edit').value=graph('Line');
 			break;
-		case 5:
+		case 'bc':
 			document.getElementById('row'+row+'Edit').value=graph('Bar');
 			break;
-		case 6:
+		case 'vlc':
 			document.getElementById('row'+row+'Edit').value=valueGraph('Line');
 			break;
-		case 7:
+		case 'vbc':
 			document.getElementById('row'+row+'Edit').value=valueGraph('Bar');
 			break;
-		case 8:
+		case 'sb':
 			document.getElementById('row'+row+'Edit').value=startStopButtons();
 			break;
-		case 9:
+		case 'rb':
 			document.getElementById('row'+row+'Edit').value=resetButton();
+			break;
+		case 'ti':
+			document.getElementById('row'+row+'Edit').value=timerPanel();
 			break;
 		default:
 			document.getElementById('row'+row+'Edit').value="Error";
@@ -182,11 +205,11 @@ function defaultPanel(row) {
 }
 
 function startStopButtons(){
-	return "<input type='submit' value='Start' class='btn btn-success' onClick='uartSend(this.value);'>\n<input type='submit' value='Stop' class='btn btn-danger' onClick='uartSend(this.value);'>";
+	return "<input type='submit' value='Start' class='btn btn-success btn-microbit'>\n<input type='submit' value='Stop' class='btn btn-danger btn-microbit'>";
 }
 
 function resetButton(){
-	return "<input type='submit' value='Reset' class='btn btn-primary' onClick='uartSend(this.value);'>";
+	return "<input type='submit' value='Reset' class='btn btn-primary btn-microbit'>";
 }
 
 function valuePanel() {
@@ -209,6 +232,10 @@ function graph(type) {
 	return "<h4 id='cT'>Title</h4>\n<div id='chart"+type+"_div'>Graph shows here</div>";
 }
 
+function timerPanel() {
+	return "<h1><div id='timer_div'>-</div></h1>";
+}
+
 //---------------------------------------------------------------------------------------------------------
 // BLE related
 //---------------------------------------------------------------------------------------------------------
@@ -216,10 +243,12 @@ function graph(type) {
 function onDisconnected(event) {
 	document.getElementById("msg").innerHTML="<b>Bluetooth disconnected</b>";
 	document.getElementById("ble").innerHTML=connectButton();
+	buttonStatusToggle(true);
 }
 
 function uartCallback (event) {
 	response=event.detail.replace(/(\r\n|\n|\r)/gm, "").split(":");
+	document.getElementById("msg").innerHTML="<b>Received command</b> - "+response[0];
 	
 	switch(response[0]) {
 		case "cL":
@@ -248,7 +277,22 @@ function uartCallback (event) {
 				options.height=response[1];
 				chart.draw(data, options);
 			}
-			break;		
+			break;
+		case "tStart":
+			if (clock) {
+				clockStart();
+			}
+			break;
+		case "tStop":
+			if (clock) {
+				clockStop();
+			}
+			break;
+		case "tReset":
+			if (clock) {
+				clockReset();
+			}
+			break;
 		default:
 			try {
 				document.getElementById(response[0]).innerHTML=response[1];
@@ -261,6 +305,7 @@ function uartCallback (event) {
 function uartSend(line) {
 	if (services.uartService) {
 		services.uartService.sendText(line+"\n");
+		document.getElementById("msg").innerHTML="<b>Send command</b> - "+line;
 	}
 }
 
@@ -286,6 +331,8 @@ async function bleConnect() {
 				services.uartService.addEventListener("receiveText", uartCallback);
 				document.getElementById("msg").innerHTML="<b>Connected to MicroBit</b>";
 				document.getElementById("ble").innerHTML=disconnectButton();
+				buttonStatusToggle(false);
+
 				uartSend("Ready");
 			}
 		initializeChart();
@@ -387,3 +434,92 @@ function drawBasicBar() {
 	chart = new google.visualization.BarChart(document.getElementById('chartBar_div'));
 	chart.draw(data, options);
 }
+
+//---------------------------------------------------------------------------------------------------------
+// Stop watch routines (from https://gist.github.com/electricg/4372563)
+// Copyright (c) 2010-2015 Giulia Alfonsi <electric.g@gmail.com>
+//---------------------------------------------------------------------------------------------------------
+
+function initializeTimer() {
+	if (document.getElementById("timer_div")) {
+		clockID=document.getElementById("timer_div");
+		clock = new clsStopwatch();
+		clockUpdate();
+	}
+}
+
+var	clsStopwatch = function() {
+		// Private vars
+		var	startAt	= 0;	// Time of last start / resume. (0 if not running)
+		var	lapTime	= 0;	// Time on the clock when last stopped in milliseconds
+
+		var	now	= function() {
+				return (new Date()).getTime(); 
+			}; 
+ 
+		// Public methods
+		// Start or resume
+		this.start = function() {
+				startAt	= startAt ? startAt : now();
+			};
+		// Stop or pause
+		this.stop = function() {
+				// If running, update elapsed time otherwise keep it
+				lapTime	= startAt ? lapTime + now() - startAt : lapTime;
+				startAt	= 0; // Paused
+			};
+		// Reset
+		this.reset = function() {
+				lapTime = startAt = 0;
+			};
+		// Duration
+		this.time = function() {
+				return lapTime + (startAt ? now() - startAt : 0); 
+			};
+	};
+	
+function pad(num, size) {
+	var s = "0000" + num;
+	return s.substr(s.length - size);
+}
+
+function formatTime(time) {
+	var m = s = fs = 0;
+	var newTime = '';
+
+	time = time % (60 * 60 * 1000);
+	m = Math.floor( time / (60 * 1000) );
+	time = time % (60 * 1000);
+	s = Math.floor( time / 1000 );
+	time = time % 1000;
+	fs = Math.floor( time / 10 );
+
+	newTime = pad(m, 2) + ':' + pad(s, 2) + '.' + pad(fs, 2);
+	return newTime;
+}
+
+function clockShow() {
+	update();
+}
+
+function clockUpdate() {
+	clockID.innerHTML = formatTime(clock.time());
+}
+
+function clockStart() {
+	clocktimer = setInterval("clockUpdate()", 10);
+	clock.start();
+}
+
+function clockStop() {
+	clock.stop();
+	clearInterval(clocktimer);
+}
+
+function clockReset() {
+	clock.stop();
+	clock.reset();
+	clockUpdate();
+}
+
+

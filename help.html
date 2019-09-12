@@ -36,7 +36,7 @@ HTML code for each row can be modified on the editor page. A number of row tempa
 any values, the <i>id</i> used in the HTML tags much match the <tt>command</tt> sent by the MicroBit. For example, this HTML code for a value display
 
 <pre>
-	&lt;h4 id='<b>lab</b>'&gt;Value&lt;/h4>
+	&lt;h4 id='<b>lab</b>'&gt;Value&lt;/h4&gt;
 	&lt;h4 class='display-4'id='<b>val</b>'&gt;0&lt;/h4&gt;
 </pre>
 
@@ -50,6 +50,27 @@ Once you click <b>Update</b> the current HTML and CSS codes from the edtor will 
 in your browser and will be valid for the same browser on the same computer. The <b>Save</b> button on the monitor page will download 
 a local version of the current page.
 </p>
+
+<h4>Buttons</h4>
+<p>Buttons on the webpage can be used to send commands to the MicroBit. The button must have the class <tt>btn-microbit</tt>. Buttons are
+automatically disabled while no MicroBit is connected. If active, pressing the button will send the <tt>value</tt> of the button to the 
+MicroBit. The <b>Reset</b> for example will send the string <tt>Reset</tt>. 
+</p>
+
+<h4>Timer</h4>
+<p>One can add and control a timer to the web page. Either use the stop watch template or add the following code:
+<pre>
+	&lt;div id="timer_div"&gt;-&lt;/div&gt;
+</pre>
+The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch.
+</p>
+<table class="table">
+<tr class="table-primary"><th>Command</th><th>Description</th></tr>
+<tr class="bg-light"><td colspan="2">Timer commands</td></tr>
+<tr><td><tt>tStart</tt></td><td>This will start the timer.</td></tr>
+<tr><td><tt>tStop</tt></td><td>This will stop the timer.</td></tr>
+<tr><td><tt>tReset</tt></td><td>This will reset the timer.</td></tr>
+</table>
 
 <h4>Charts</h4>
 <p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the
