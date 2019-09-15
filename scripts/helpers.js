@@ -125,7 +125,7 @@ function reloadMain() {
 function editField(row,val) {
 	document.write("<div class='editHeader'><b>Row "+row+"</b> - Select template</b>\n");
 	document.write("<a href='#' onclick='togglePanel(\"row"+row+"Edit\",\"img"+row+"\");'>");
-	document.write("<img id='img"+row+"' src='images/up.png' align='right' height='30'></a>\n");
+	document.write("<img id='img"+row+"' src='https://microbit.orcsgirls.org/images/up.png' align='right' height='30'></a>\n");
 	
 	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>\n");
 	document.write("<option value='' selected></option>\n");
@@ -163,7 +163,7 @@ function editStyle(val) {
 	if (val==undefined) { val=defaultStyle(); }
 	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a>\n");
 	document.write("<a href='#' onclick='togglePanel(\"styleEdit\",\"imgStyle\");'>");
-	document.write("<img id='imgStyle' src='images/down.png' align='right' height='30'></a></div>\n");
+	document.write("<img id='imgStyle' src='https://microbit.orcsgirls.org/images/down.png' align='right' height='30'></a></div>\n");
 	document.write("<textarea id='styleEdit' name='styleEdit' rows='10' class='form-control' style='display:none;'>"+val+"</textarea>\n");
 }
 
@@ -263,10 +263,10 @@ function togglePanel(name,icon) {
 	
 	if (e.style.display === "none") {
 		e.style.display = "block";
-		i.src='images/up.png';
+		i.src='https://microbit.orcsgirls.org/images/up.png';
 	} else {
 		e.style.display = "none";
-		i.src='images/down.png';
+		i.src='https://microbit.orcsgirls.org/images/down.png';
 	}
 }
 //---------------------------------------------------------------------------------------------------------
