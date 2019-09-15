@@ -124,7 +124,10 @@ function reloadMain() {
 
 function editField(row,val) {
 	document.write("<div class='editHeader'><b>Row "+row+"</b> - Select template</b>\n");
-	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>>\n");
+	document.write("<a href='#' onclick='togglePanel(\"row"+row+"Edit\",\"img"+row+"\");'>");
+	document.write("<img id='img"+row+"' src='images/up.png' align='right' height='30'></a>\n");
+	
+	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>\n");
 	document.write("<option value='' selected></option>\n");
 	
 	document.write("<option value='t'>Text field</option>\n");
@@ -138,12 +141,30 @@ function editField(row,val) {
 	document.write("<option value='sb'>Start/Stop buttons</option>\n");
 	document.write("<option value='rb'>Reset button</option>\n");
 
-	document.write("</select> - <a href='#' onclick='togglePanel(\"row"+row+"Edit\");'>HTML</a></div>\n");
+	document.write("</select></div>\n");
+	
+	if (val==undefined) {
+		switch (row) {
+			case 1:
+				val=textPanel();
+				break;
+			case 2:
+				val=graph('Bar');
+				break;
+			case 3:
+				val=resetButton();
+				break;				
+		}
+	}
 	document.write("<textarea id='row"+row+"Edit' name='row"+row+"' rows='3' class='form-control'>"+val+"</textarea>");
 }
 
-function editStyle() {
-	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a></div>\n<textarea id='styleEdit' name='styleEdit' rows='6' class='form-control'>"+localStorage.style+"</textarea>\n");
+function editStyle(val) {
+	if (val==undefined) { val=defaultStyle(); }
+	document.write("<div class='editHeader'><b>Style</b> - <a href='#' onclick='document.getElementById(\"styleEdit\").value=defaultStyle();'>Reset</a>\n");
+	document.write("<a href='#' onclick='togglePanel(\"styleEdit\",\"imgStyle\");'>");
+	document.write("<img id='imgStyle' src='images/down.png' align='right' height='30'></a></div>\n");
+	document.write("<textarea id='styleEdit' name='styleEdit' rows='10' class='form-control' style='display:none;'>"+val+"</textarea>\n");
 }
 
 function fillTemplate(row) {
@@ -236,12 +257,16 @@ function timerPanel() {
 	return "<h1><div id='timer_div'>-</div></h1>";
 }
 
-function togglePanel(name) {
+function togglePanel(name,icon) {
 	var e=document.getElementById(name);
+	var i=document.getElementById(icon);
+	
 	if (e.style.display === "none") {
 		e.style.display = "block";
+		i.src='images/up.png';
 	} else {
 		e.style.display = "none";
+		i.src='images/down.png';
 	}
 }
 //---------------------------------------------------------------------------------------------------------
