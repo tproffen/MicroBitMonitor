@@ -138,7 +138,7 @@ function editField(row,val) {
 	document.write("<option value='sb'>Start/Stop buttons</option>\n");
 	document.write("<option value='rb'>Reset button</option>\n");
 
-	document.write("</select></div>\n");
+	document.write("</select> - <a href='#' onclick='togglePanel(\"row"+row+"Edit\");'>HTML</a></div>\n");
 	document.write("<textarea id='row"+row+"Edit' name='row"+row+"' rows='3' class='form-control'>"+val+"</textarea>");
 }
 
@@ -236,6 +236,14 @@ function timerPanel() {
 	return "<h1><div id='timer_div'>-</div></h1>";
 }
 
+function togglePanel(name) {
+	var e=document.getElementById(name);
+	if (e.style.display === "none") {
+		e.style.display = "block";
+	} else {
+		e.style.display = "none";
+	}
+}
 //---------------------------------------------------------------------------------------------------------
 // BLE related
 //---------------------------------------------------------------------------------------------------------
