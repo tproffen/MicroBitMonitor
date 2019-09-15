@@ -82,6 +82,7 @@ in the table below.
 <table class="table">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
 <tr class="bg-light"><td colspan="2">Chart types</td></tr>
+<tr><td>Gauge</td><td>This will create a gauge for each value and updating the values as they are received.</td></tr>
 <tr><td>Bar chart</td><td>This will create a vertical bar chart updating the values as they are received.</td></tr>
 <tr><td>Line chart</td><td>This will create a line chart. Values will be added to the line as they are received. 
 	Once the maximum number of values for the chart is received, the chart will scroll horizontally.</td></tr>
@@ -93,7 +94,10 @@ in the table below.
 	Note that the number of values needs to match the number of labels set with the <tt>cL</tt> command.</td></tr>
 <tr><td><tt>cMin:min</tt></td><td>Sets the minimum value of the chart range to <tt>min</tt>.</td></tr>
 <tr><td><tt>cMax:max</tt></td><td>Sets the maximum value of the chart range to <tt>max</tt>.</td></tr>
-<tr><td><tt>cHeight:height</tt></td><td>Sets the height of the chart to <tt>height</tt> pixels.</td></tr>
+<tr><td><tt>cO:key:value</tt></td><td>Sets the option <tt>key</tt> to <tt>value</tt>. For example
+	<tt>cO:height:high</tt> will set the chart height to <tt>high</tt> pixels. Refer to the
+	<a href="https://developers.google.com/chart/interactive/docs/basic_customizing_chart" target="_blank">Google charts</a>
+	documentation for available options.</td></tr>
 </table>
 
 <p>

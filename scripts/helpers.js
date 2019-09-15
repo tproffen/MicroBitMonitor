@@ -75,7 +75,7 @@ function saveData() {
 }
 
 function pageHeader() {
-	return "<html><head><title>ORCS Girls - MicroBit Monitor</title><meta name='viewport' content='width=device-width, initial-scale=1'><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script><script>google.charts.load('current', {'packages':['corechart']});</script></head>";
+	return "<html><head><title>ORCS Girls - MicroBit Monitor</title><meta name='viewport' content='width=device-width, initial-scale=1'><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script><script>google.charts.load('current', {'packages':['corechart','gauge']});</script></head>";
 }
 
 function expandLinks(flag) {
@@ -135,8 +135,10 @@ function editField(row,val) {
 	document.write("<option value='v2'>Value display - row of 2</option>\n");
 	document.write("<option value='lc'>Line chart</option>\n");
 	document.write("<option value='bc'>Bar chart</option>\n");
+	document.write("<option value='gc'>Gauge</option>\n");
 	document.write("<option value='vlc'>Value & Line chart</option>\n");
 	document.write("<option value='vbc'>Value & Bar chart</option>\n");
+	document.write("<option value='vgc'>Value & Gauge</option>\n");
 	document.write("<option value='ti'>Timer display</option>\n");
 	document.write("<option value='sb'>Start/Stop buttons</option>\n");
 	document.write("<option value='rb'>Reset button</option>\n");
@@ -185,11 +187,17 @@ function fillTemplate(row) {
 		case 'bc':
 			document.getElementById('row'+row+'Edit').value=graph('Bar');
 			break;
+		case 'gc':
+			document.getElementById('row'+row+'Edit').value=graph('Gauge');
+			break;
 		case 'vlc':
 			document.getElementById('row'+row+'Edit').value=valueGraph('Line');
 			break;
 		case 'vbc':
 			document.getElementById('row'+row+'Edit').value=valueGraph('Bar');
+			break;
+		case 'vgc':
+			document.getElementById('row'+row+'Edit').value=valueGraph('Gauge');
 			break;
 		case 'sb':
 			document.getElementById('row'+row+'Edit').value=startStopButtons();
@@ -294,20 +302,20 @@ function uartCallback (event) {
 			}
 			break;
 		case "cMax":
-			if(chart && (ctype=="bar")) {
+			if(chart) {
 				options.hAxis.maxValue=response[1];
 				chart.draw(data, options);
 			}
 			break;
 		case "cMin":
-			if(chart && (ctype=="bar")) {
+			if(chart) {
 				options.hAxis.minValue=response[1];
 				chart.draw(data, options);
 			}
 			break;
-		case "cHeight":
+		case "cO":
 			if(chart) {
-				options.height=response[1];
+				options[response[1]]=response[2];
 				chart.draw(data, options);
 			}
 			break;
@@ -390,6 +398,11 @@ function initializeChart() {
 		google.charts.setOnLoadCallback(drawBasicBar);
 		ctype='bar';
 	}
+	
+	if(document.getElementById("chartGauge_div")) {
+		google.charts.setOnLoadCallback(drawBasicGauge);
+		ctype='gauge';
+	}
 }
 
 function setColumns(fields) {
@@ -400,6 +413,11 @@ function setColumns(fields) {
 			case "line":
 				for (var i=2; i<fields.length; i++) {
 					data.addColumn('number', fields[i]);
+				}
+				break;
+			case "gauge":
+				for (var i=1; i<fields.length; i++) {
+					data.addRow([fields[i],0]);
 				}
 				break;
 			case "bar":
@@ -424,6 +442,7 @@ function updateRows(values) {
 				index++;
 				break;
 			case "bar":
+			case "gauge":
 				for (var i=1; i<values.length; i++) {
 					data.setCell(i-1,1, values[i]);
 				}
@@ -465,6 +484,21 @@ function drawBasicBar() {
 	};
 
 	chart = new google.visualization.BarChart(document.getElementById('chartBar_div'));
+	chart.draw(data, options);
+}
+
+function drawBasicGauge() {
+	data = new google.visualization.DataTable();
+	data.addColumn('string', 'Label');
+	data.addColumn('number', '0');	
+	
+	options = {
+		height:		400,
+		chartArea: 	{width: '80%', height: '80%'},
+		legend: 	{position: 'none'}
+	};
+
+	chart = new google.visualization.Gauge(document.getElementById('chartGauge_div'));
 	chart.draw(data, options);
 }
 
