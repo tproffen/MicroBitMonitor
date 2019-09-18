@@ -214,7 +214,7 @@ function fillTemplate(row) {
 }
 
 function defaultStyle() {
-	return "#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}";
+	return "#row1 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}\n#row2 {\n background-color: #FFFFFF;\n text-align: center;\n padding: 10px;\n}\n\n#row3 {\n background-color: #EEEEEE;\n text-align: center;\n padding: 10px;\n}";
 }
 
 function defaultPanel(row) {
@@ -302,13 +302,13 @@ function uartCallback (event) {
 			}
 			break;
 		case "cMax":
-			if(chart) {
+			if(chart && ctype!='gauge') {
 				options.hAxis.maxValue=response[1];
 				chart.draw(data, options);
 			}
 			break;
 		case "cMin":
-			if(chart) {
+			if(chart && ctype!='gauge') {
 				options.hAxis.minValue=response[1];
 				chart.draw(data, options);
 			}
