@@ -21,7 +21,13 @@ function setup() {
 			document.getElementById("row2").innerHTML=DOMPurify.sanitize(localStorage.row2);
 			document.getElementById("row3").innerHTML=DOMPurify.sanitize(localStorage.row3);
 			document.getElementById("style").innerHTML="<style>\n"+localStorage.style+"\n</style>\n";
-			document.getElementById("msg").innerHTML="<b>Layout loaded</b>"
+			document.getElementById("msg").innerHTML="<b>Layout loaded</b>";
+		} else {
+			document.getElementById("row1").innerHTML=textPanel();
+			document.getElementById("row2").innerHTML=valuePanel();
+			document.getElementById("row3").innerHTML=resetButton();
+			document.getElementById("style").innerHTML="<style>\n"+defaultStyle()+"\n</style>\n";
+			document.getElementById("msg").innerHTML="<b>Layout reset</b>";
 		}
 	}
 	
@@ -130,12 +136,13 @@ function editField(row,val) {
 	document.write("<select id='select"+row+"' onchange='fillTemplate("+row+");'>\n");
 	document.write("<option value='' selected></option>\n");
 	
-	document.write("<option value='t'>Text field</option>\n");
+	document.write("<option value='t'>Text panel</option>\n");
 	document.write("<option value='v'>Value display</option>\n");
-	document.write("<option value='v2'>Value display - row of 2</option>\n");
+	document.write("<option value='v2'>Two value display</option>\n");
 	document.write("<option value='lc'>Line chart</option>\n");
 	document.write("<option value='bc'>Bar chart</option>\n");
-	document.write("<option value='gc'>Gauge</option>\n");
+	document.write("<option value='gc'>Gauge panel</option>\n");
+	document.write("<option value='vt'>Value & Text panel</option>\n");	
 	document.write("<option value='vlc'>Value & Line chart</option>\n");
 	document.write("<option value='vbc'>Value & Bar chart</option>\n");
 	document.write("<option value='vgc'>Value & Gauge</option>\n");
@@ -151,7 +158,7 @@ function editField(row,val) {
 				val=textPanel();
 				break;
 			case 2:
-				val=graph('Bar');
+				val=valuePanel();
 				break;
 			case 3:
 				val=resetButton();
@@ -180,6 +187,9 @@ function fillTemplate(row) {
 			break;
 		case 'v2':
 			document.getElementById('row'+row+'Edit').value=valuePanelTwo();
+			break;
+		case 'vt':
+			document.getElementById('row'+row+'Edit').value=valueText();
 			break;
 		case 'lc':
 			document.getElementById('row'+row+'Edit').value=graph('Line');
@@ -247,6 +257,10 @@ function valuePanel() {
 
 function valuePanelTwo() {
 	return "<table><tr><td width='50%'><h4 id='lab1'>Value</h4><hr><h1 class='display-1' id='val1'>0</h1></td>\n<td width='50%'><h4 id='lab2'>Value</h4><hr><h1 class='display-1' id='val2'>0</h1></td></tr></table>";
+}
+
+function valueText() {
+	return "<table><tr><td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td>\n<td width='50%'><div id='txt'>Your text here ..</div></td></tr></table>";
 }
 
 function textPanel() {
