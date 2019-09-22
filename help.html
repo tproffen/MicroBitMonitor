@@ -23,47 +23,33 @@
 
 <h4>Communication</h4>
 
-<p>The MicroBit communicates with the web browser via BLE UART commands. The commands are strings in general formed as 
-<tt>command:parameter:..</tt> Note that the <b>maximum string length is 20 characters</b> requiring short 
-commands. The value of <tt>command</tt> can either be any string matching the <i>id</i> od any HTML tag on the monitor page 
-or one of the special command related to charts displayed on the web page.
-</p>
+<p>The MicroBit communicates with the web browser via BLE UART commands. The commands are strings in general formed as <tt>command:parameter:..</tt> Note that the <b>maximum string length is 20 characters</b> requiring short commands. The value of <tt>command</tt> can either be any string matching the <i>id</i> od any HTML tag on the monitor page or one of the special command related to charts displayed on the web page.</p>
 
 <h4>Configuring the page</h4>
-<p>
-The monitor web page can be configured using the <b>Edit</b> button. The monitor screen is divided into three rows that span the page width. The
-HTML code for each row can be modified on the editor page. A number of row tempates can be selected using the drop down menu. In order to update
-any values, the <i>id</i> used in the HTML tags much match the <tt>command</tt> sent by the MicroBit. For example, this HTML code for a value display
 
+<p>The monitor web page can be configured using the <b>Edit</b> button. The monitor screen is divided into three rows that span the page width. The HTML code for each row can be modified on the editor page. A number of row tempates can be selected using the drop down menu. In order to update any values, the <i>id</i> used in the HTML tags much match the <tt>command</tt> sent by the MicroBit. For example, this HTML code for a value display
 <pre>
 	&lt;h4 id='<b>lab</b>'&gt;Value&lt;/h4&gt;
 	&lt;h4 class='display-4'id='<b>val</b>'&gt;0&lt;/h4&gt;
 </pre>
-
-would allow the MicroBit to change the title by sending the command <tt>lab:new title</tt> and update the value using <tt>val:123</tt>. 
-If the same <i>id</i> is used in multiple locations, all values will be updates.
-</p>
+would allow the MicroBit to change the title by sending the command <tt>lab:new title</tt> and update the value using <tt>val:123</tt>. If the same <i>id</i> is used in multiple locations, all values will be updates.</p>
 
 <h4>Updating and saving</h4>
-<p>
-Once you click <b>Update</b> the current HTML and CSS codes from the edtor will be used to render the monitor page. This information is stored 
-in your browser and will be valid for the same browser on the same computer. The <b>Save</b> button on the monitor page will download 
-a local version of the current page.
-</p>
+
+<p>Once you click <b>Update</b> the current HTML and CSS codes from the edtor will be used to render the monitor page. This information is stored in your browser and will be valid for the same browser on the same computer. The <b>Save</b> button on the monitor page will download a local version of the current page. While these pages cannot be edited online, the HTML code can be modified directly in any text editor as desired.</p>
 
 <h4>Buttons</h4>
-<p>Buttons on the webpage can be used to send commands to the MicroBit. The button must have the class <tt>btn-microbit</tt>. Buttons are
-automatically disabled while no MicroBit is connected. If active, pressing the button will send the <tt>value</tt> of the button to the 
-MicroBit. The <b>Reset</b> for example will send the string <tt>Reset</tt>. 
-</p>
+
+<p>Buttons on the webpage can be used to send commands to the MicroBit. The button must have the class <tt>btn-microbit</tt>. Buttons are automatically disabled while no MicroBit is connected. If active, pressing the button will send the <tt>value</tt> of the button to the MicroBit. The <b>Reset</b> for example will send the string <tt>Reset</tt>.</p>
 
 <h4>Timer</h4>
+
 <p>One can add and control a timer to the web page. Either use the stop watch template or add the following code:
 <pre>
 	&lt;div id="timer_div"&gt;-&lt;/div&gt;
 </pre>
-The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch.
-</p>
+The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch.</p>
+
 <table class="table">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
 <tr class="bg-light"><td colspan="2">Timer commands</td></tr>
@@ -73,11 +59,8 @@ The <tt>div</tt> tag will contain the timer value. The following commands can be
 </table>
 
 <h4>Charts</h4>
-<p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the
-drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt> or 
-<tt>&lt;div id="<b>chartLine_div</b>"&gt;&lt;/div&gt;</tt>tags. The chart specific commands are summarized 
-in the table below.
-</p>
+
+<p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt> or <tt>&lt;div id="<b>chartLine_div</b>"&gt;&lt;/div&gt;</tt>tags. The chart specific commands are summarized in the table below.</p>
 
 <table class="table">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
@@ -100,13 +83,8 @@ in the table below.
 	documentation for available options.</td></tr>
 </table>
 
-<p>
-<hr>
-Github: <a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">https://github.com/tproffen/MicroBitMonitor</a><br>
-Contact: <a href="mailto:thomas@orcsgirls.org">thomas@orcsgirls.org</a>
-</p>
-
+<p><hr>Github: <a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">https://github.com/tproffen/MicroBitMonitor</a><br>
+Contact: <a href="mailto:thomas@orcsgirls.org">thomas@orcsgirls.org</a></p>
 </div>
-
 </body>
 </html>
