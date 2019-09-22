@@ -4,13 +4,19 @@ body {
 }
 
 .header {
-	background-color: #b8cff5;
+	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
 	padding: 10px;
 	margin: 5px;
 }	
 
 .footer {
-	background-color: #b8cff5;
+	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
 	padding: 10px;
 	margin: 5px;
 }
@@ -19,12 +25,15 @@ body {
 	margin: 0px 5px;
 	padding: 0px;
 	border-style: solid;
-	border-color: #b8cff5;
+	border-color: #cccccc;
 	border-width: 1px;
 }
 
 .editHeader {
 	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
 	margin-top: 5px;
 	padding: 5px;
 	height: 38px;

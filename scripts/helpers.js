@@ -56,7 +56,7 @@ function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
 	document.getElementById("editBtn").innerHTML="";
-	document.getElementById("msg").innerHTML="";
+	document.getElementById("msg").innerHTML="Created with <a href='https://microbit.orcsgirls.org'>MicroBitMonitor</a>.";
 	expandLinks(true);
 
 	var data=pageHeader()+"<body>"+document.getElementsByTagName("BODY")[0].innerHTML+"</body></html>";
