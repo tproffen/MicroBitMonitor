@@ -260,7 +260,7 @@ function valuePanelTwo() {
 }
 
 function valueText() {
-	return "<table><tr><td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td>\n<td width='50%'><div id='msg'>Your text here ..</div></td></tr></table>";
+	return "<table><tr><td width='50%'><h4 id='lab'>Value</h4><hr><h1 class='display-1' id='val'>0</h1></td>\n<td width='50%'><div id='tval'>Your text here ..</div></td></tr></table>";
 }
 
 function textPanel() {
