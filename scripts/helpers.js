@@ -33,6 +33,7 @@ function setup() {
 	
 	document.getElementById("ble").innerHTML=connectButton();
 	initializeChart();
+	initializeJoystick();
 	initializeTimer();
 	buttonCallbacks();
 	buttonStatusToggle(true);
@@ -92,6 +93,7 @@ function expandLinks(flag) {
 	document.getElementById("helperslink").src=prefix+"scripts/helpers.js";
 	document.getElementById("microbitlink").src=prefix+"dist/microbit.umd.js";
 	document.getElementById("purifylink").src=prefix+"dist/purify.min.js";
+	document.getElementById("joysticklink").src=prefix+"dist/joy.min.js";
 	document.getElementById("stylelink").href=prefix+"styles/theme.css";
 }
 		
@@ -112,7 +114,8 @@ function editUpdate() {
 	localStorage.row2=document.getElementById('row2Edit').value;
 	localStorage.row3=document.getElementById('row3Edit').value;
 	
-	localStorage.style=document.getElementById('styleEdit').value.replace(/<.style>/g, "");
+	localStorage.style=document.getElementById('styleEdit').value.replace(/<.{0,}style>/g, "");
+	document.getElementById('styleEdit').value=localStorage.style;
 	reloadMain();
 }
 
@@ -514,6 +517,17 @@ function drawBasicGauge() {
 
 	chart = new google.visualization.Gauge(document.getElementById('chartGauge_div'));
 	chart.draw(data, options);
+}
+
+//---------------------------------------------------------------------------------------------------------
+// JoyStick interface
+// From https://github.com/bobboteck/JoyStick
+//---------------------------------------------------------------------------------------------------------
+
+function initializeJoystick () {
+	if (document.getElementById("joystick_div")) {
+		var joy = new JoyStick('joystick_div');
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------

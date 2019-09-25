@@ -3,6 +3,17 @@ body {
 	margin: 0px;
 }
 
+table {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	text-align: center;
+}
+
+hr {
+	width: 80%;
+}
+
 .header {
 	background-color: #eeeeee;
 	border-style: solid;
@@ -53,13 +64,6 @@ body {
 	font-size: 48px;
 }
 
-table {
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-	text-align: center;
-}
-
-hr {
-	width: 80%;
+#joystick {
+	border: 1px solid #9C9898;
 }
