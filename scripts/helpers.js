@@ -2,6 +2,7 @@ const bufferSize=100;
 
 var data, chart, options;
 var clock, clocktimer, clockID;
+var joy, joyTimer;
 var device, services, ctype;
 var index=0;
 
@@ -91,9 +92,9 @@ function expandLinks(flag) {
 	if (flag) {prefix="https://microbit.orcsgirls.org/";}
 	document.getElementById("imglink").src=prefix+"images/orcsgirls.png";
 	document.getElementById("helperslink").src=prefix+"scripts/helpers.js";
+	document.getElementById("joylink").src=prefix+"scripts/joy.js";
 	document.getElementById("microbitlink").src=prefix+"dist/microbit.umd.js";
 	document.getElementById("purifylink").src=prefix+"dist/purify.min.js";
-	document.getElementById("joysticklink").src=prefix+"dist/joy.min.js";
 	document.getElementById("stylelink").href=prefix+"styles/theme.css";
 }
 		
@@ -521,12 +522,24 @@ function drawBasicGauge() {
 
 //---------------------------------------------------------------------------------------------------------
 // JoyStick interface
-// From https://github.com/bobboteck/JoyStick
 //---------------------------------------------------------------------------------------------------------
+
+function updateJoystick() {
+	var x=joy.GetX();
+	var y=joy.GetY();
+	document.getElementById("msg").innerHTML="<b>Joystick</b>: "+x+", "+y;
+	
+	if(joy.isPressed()) {
+	}
+}
 
 function initializeJoystick () {
 	if (document.getElementById("joystick_div")) {
-		var joy = new JoyStick('joystick_div');
+		joy = new JoyStick('joystick_div');
+		if(joyTimer) {
+			clearInterval(joyTimer);
+		}
+		joyTimer=setInterval(updateJoystick,100);
 	}
 }
 
