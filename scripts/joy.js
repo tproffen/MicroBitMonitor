@@ -23,24 +23,15 @@ var JoyStick = (function(container) {
 	var internalStrokeColor = '#00FF00';
 	var internalLineWidth = 1;
 		
-	// Check if the device support the touch or not
-	var touchable = 'createTouch' in document;
-	if(touchable)
-	{
-		canvas.addEventListener('touchstart', onTouchStart, false);
-		canvas.addEventListener('touchmove', onTouchMove, false);
-		canvas.addEventListener('touchend', onTouchEnd, false);
-	}
-	else
-	{
-		canvas.addEventListener('touchstart', onTouchStart, false);
-		canvas.addEventListener('touchmove', onTouchMove, false);
-		canvas.addEventListener('touchend', onTouchEnd, false);
-		canvas.addEventListener('mousedown', onMouseDown, false);
-		canvas.addEventListener('mousemove', onMouseMove, false);
-		canvas.addEventListener('mouseup', onMouseUp, false);
-		canvas.addEventListener('mouseout', onMouseUp, false);
-	}
+	// Register event handlers
+	canvas.addEventListener('touchstart', onStart, false);
+	canvas.addEventListener('touchmove', onTouchMove, false);
+	canvas.addEventListener('touchend', onEnd, false);
+	canvas.addEventListener('mousedown', onStart, false);
+	canvas.addEventListener('mousemove', onMouseMove, false);
+	canvas.addEventListener('mouseup', onEnd, false);
+	canvas.addEventListener('mouseout', onEnd, false);
+	
 	// Draw the object
 	drawInternal(centerX, centerY);
 	
@@ -62,46 +53,28 @@ var JoyStick = (function(container) {
 	}
 	
 	/**
-	 * @desc Events for manage touch
+	 * @desc Events for manage input in canvas (mouse or touch)
 	 */
-	function onTouchStart(event) 
+	function onStart(event) 
 	{
 		pressed=1;
 	}
+	function onEnd(event) 
+	{
+		pressed=0;
+		movedX=centerX;
+		movedY=centerY;
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		drawInternal();
+	}
 	function onTouchMove(event) {
-		// Prevent the browser from doing its default thing (scroll, zoom)
 		event.preventDefault();
 		if(pressed==1)
 		{
 			movedX=event.touches[0].pageX;
 			movedY=event.touches[0].pageY;
-			// Manage offset
-			movedX-=canvas.getBoundingClientRect().left;
-			movedY-=canvas.getBoundingClientRect().top;
-			// Delete canvas
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			// Redraw object
-			drawInternal();
+			updateStick();
 		}
-	} 
-	function onTouchEnd(event) 
-	{
-		pressed=0;
-		// Reset position store variable
-		movedX=centerX;
-		movedY=centerY;
-		// Delete canvas
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		// Redraw object
-		drawInternal();
-		//canvas.unbind('touchmove');
-	}
-	/**
-	 * @desc Events for manage mouse
-	 */
-	function onMouseDown(event) 
-	{
-		pressed=1;
 	}
 	function onMouseMove(event) 
 	{
@@ -109,26 +82,20 @@ var JoyStick = (function(container) {
 		{
 			movedX=event.pageX;
 			movedY=event.pageY;
-			// Manage offset
-			movedX-=canvas.getBoundingClientRect().left;
-			movedY-=canvas.getBoundingClientRect().top;
-			// Delete canvas
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			// Redraw object
-			drawInternal();
+			updateStick();
 		}
 	}
-	function onMouseUp(event) 
-	{
-		pressed=0;
-		// Reset position store variable
-		movedX=centerX;
-		movedY=centerY;
-		// Delete canvas
+	function updateStick() {
+		movedX-=canvas.getBoundingClientRect().left;
+		movedY-=canvas.getBoundingClientRect().top;
+		if(movedX<0 || movedX>canvas.width ||
+		   movedY<0 || movedY>canvas.height) {
+			pressed=0;
+			movedX=centerX;
+			movedY=centerY;
+		}
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		// Redraw object
 		drawInternal();
-		//canvas.unbind('mousemove');
 	}
 	/******************************************************
 	 * Public methods
