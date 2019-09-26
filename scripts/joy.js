@@ -33,6 +33,9 @@ var JoyStick = (function(container) {
 	}
 	else
 	{
+		canvas.addEventListener('touchstart', onTouchStart, false);
+		canvas.addEventListener('touchmove', onTouchMove, false);
+		canvas.addEventListener('touchend', onTouchEnd, false);
 		canvas.addEventListener('mousedown', onMouseDown, false);
 		canvas.addEventListener('mousemove', onMouseMove, false);
 		canvas.addEventListener('mouseup', onMouseUp, false);
