@@ -2,7 +2,7 @@ const bufferSize=100;
 
 var data, chart, options;
 var clock, clocktimer, clockID;
-var joy, joyTimer;
+var joy, joyTimer, joyDirOld;
 var device, services, ctype;
 var index=0;
 
@@ -525,11 +525,11 @@ function drawBasicGauge() {
 //---------------------------------------------------------------------------------------------------------
 
 function updateJoystick() {
-	var x=joy.GetX();
-	var y=joy.GetY();
-	document.getElementById("msg").innerHTML="<b>Joystick</b>: "+x+", "+y;
+	var joyDir = joy.GetDir();
 	
-	if(joy.isPressed()) {
+	if(joyDir !== joyDirOld) {
+		document.getElementById("msg").innerHTML="<b>Joystick</b>: "+joy.GetDir()+ " --- Updated: "+Date().toString();
+		joyDirOld = joyDir;
 	}
 }
 

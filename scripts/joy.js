@@ -6,9 +6,8 @@ var JoyStick = (function(container) {
 	var objContainer = document.getElementById(container);
 	var canvas = document.createElement('canvas');
 
-	size = 300;
-	canvas.height=size;
-	canvas.width=size;
+	canvas.height=objContainer.clientHeight;
+	canvas.width=objContainer.clientWidth;
 	
 	objContainer.appendChild(canvas);
 	var context=canvas.getContext('2d');
@@ -22,6 +21,12 @@ var JoyStick = (function(container) {
 	var internalFillColor = '#00AA00';
 	var internalStrokeColor = '#00FF00';
 	var internalLineWidth = 1;
+	
+	var directionHorizontalLimitPos = canvas.width / 10;
+	var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
+	var directionVerticalLimitPos = canvas.height / 10;
+	var directionVerticalLimitNeg = directionVerticalLimitPos * -1;
+
 		
 	// Register event handlers
 	canvas.addEventListener('touchstart', onStart, false);
@@ -32,22 +37,30 @@ var JoyStick = (function(container) {
 	canvas.addEventListener('mouseup', onEnd, false);
 	canvas.addEventListener('mouseout', onEnd, false);
 	
+	// Dummy element to get CSS style for joystick button on canvas
+	var div = document.createElement("div");
+    div.style = "display: none";
+	div.className='joystickButton';
+	document.body.appendChild(div);
+	const joyStyle = getComputedStyle(div);
+
 	// Draw the object
 	drawInternal(centerX, centerY);
 	
 	/******************************************************
 	 * Private methods
 	 *****************************************************/
-	/**
+	 /**
 	 * @desc Draw the internal stick in the current position the user have moved it
 	 */
 	function drawInternal()
 	{
-		context.fillStyle = internalFillColor;
-		context.lineWidth = internalLineWidth;
-		context.strokeStyle = internalStrokeColor;
+		var radius = parseInt(joyStyle.height, 10)/2;
+		context.fillStyle = joyStyle.color;
+		context.lineWidth = joyStyle.borderWidth;
+		context.strokeStyle = joyStyle.borderColor;
 		context.beginPath();
-		context.arc(movedX, movedY, 0.15*canvas.width, 0, 2.0*Math.PI, false);
+		context.arc(movedX, movedY, radius, 0, 2.0*Math.PI, false);
 		context.fill();
 		context.stroke();
 	}
@@ -161,5 +174,53 @@ var JoyStick = (function(container) {
 	this.isPressed = function ()
 	{
 		return (pressed==1);
+	};
+		/**
+	 * @desc Get the direction of the cursor as a string that indicates the cardinal points where this is oriented
+	 * @return String of cardinal point N, NE, E, SE, S, SW, W, NW and C when it is placed in the center
+	 */
+	this.GetDir = function()
+	{
+		var result = "";
+		var orizontal = movedX - centerX;
+		var vertical = movedY - centerY;
+		
+		if(vertical>=directionVerticalLimitNeg && vertical<=directionVerticalLimitPos)
+		{
+			result = "C";
+		}
+		if(vertical<directionVerticalLimitNeg)
+		{
+			result = "N";
+		}
+		if(vertical>directionVerticalLimitPos)
+		{
+			result = "S";
+		}
+		
+		if(orizontal<directionHorizontalLimitNeg)
+		{
+			if(result=="C")
+			{ 
+				result = "W";
+			}
+			else
+			{
+				result += "W";
+			}
+		}
+		if(orizontal>directionHorizontalLimitPos)
+		{
+			if(result=="C")
+			{ 
+				result = "W";
+			}
+			else
+			{
+				result += "E";
+			}
+		}
+		
+		return result;
 	};
 });

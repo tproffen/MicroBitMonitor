@@ -14,12 +14,6 @@ hr {
 	width: 80%;
 }
 
-canvas {
-	border-style: solid;
-	border-color: #cccccc;
-	border-width: 1px;
-}
-
 .header {
 	background-color: #eeeeee;
 	border-style: solid;
@@ -70,4 +64,19 @@ canvas {
 	font-size: 48px;
 }
 
+#joystick_div {
+	height: 300px;
+	width: 300px;
+	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
+}
+
+.joystickButton {
+	height: 100px;
+	color: #ff0000;
+	border-color: #000000;
+	border-width: 3px;
+}
 
