@@ -148,6 +148,7 @@ function editField(row,val) {
 	document.write("<option value='lc'>Line chart</option>\n");
 	document.write("<option value='bc'>Bar chart</option>\n");
 	document.write("<option value='gc'>Gauge panel</option>\n");
+	document.write("<option value='j'>Joystick panel</option>\n");
 	document.write("<option value='vt'>Value & Text panel</option>\n");	
 	document.write("<option value='vlc'>Value & Line chart</option>\n");
 	document.write("<option value='vbc'>Value & Bar chart</option>\n");
@@ -224,6 +225,9 @@ function fillTemplate(row) {
 		case 'ti':
 			document.getElementById('row'+row+'Edit').value=timerPanel();
 			break;
+		case 'j':
+			document.getElementById('row'+row+'Edit').value=joystickPanel();
+			break;
 		default:
 			document.getElementById('row'+row+'Edit').value="Error";
 	}
@@ -283,6 +287,10 @@ function graph(type) {
 
 function timerPanel() {
 	return "<h1><div id='timer_div'>-</div></h1>";
+}
+
+function joystickPanel() {
+	return "<div id='joystick_div'></div>";
 }
 
 function togglePanel(name,icon) {

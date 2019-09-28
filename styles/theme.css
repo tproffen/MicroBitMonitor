@@ -14,11 +14,9 @@ hr {
 	width: 80%;
 }
 
-canvas {
+pre {
 	background-color: #eeeeee;
-	border-style: solid;
-	border-color: #cccccc;
-	border-width: 1px;
+	padding: 5px;
 }
 
 .header {
@@ -62,6 +60,10 @@ canvas {
 	padding: 0px;
 }
 
+.divider hr {
+	width: 100%;
+}
+
 #chartLine_div {
 	height: 400px;
 }
@@ -75,10 +77,19 @@ canvas {
 	height: 300px;
 }
 
-.joystickButton {
+#joystick {
+	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
+}
+
+#joystickButton {
 	height: 100px;
 	color: #ff0000;
 	border-color: #000000;
 	border-width: 3px;
 }
+
+
 

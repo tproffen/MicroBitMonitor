@@ -5,12 +5,15 @@
 var JoyStick = (function(container) {
 
 	var objContainer = document.getElementById(container);
-	var canvas = document.createElement('canvas');
-
+	var canvas = document.getElementById('joystick');
+	if (!canvas) {
+		canvas = document.createElement('canvas');
+		objContainer.appendChild(canvas);
+	}
 	canvas.height=objContainer.clientHeight;
 	canvas.width=objContainer.clientHeight; // Force square aspect ratio
+	canvas.id='joystick';
 	
-	objContainer.appendChild(canvas);
 	var context=canvas.getContext('2d');
 	
 	var pressed = 0; // Bool - 1=Yes - 0=No
@@ -19,10 +22,6 @@ var JoyStick = (function(container) {
 	var movedX=centerX;
 	var movedY=centerY;
 		
-	var internalFillColor = '#00AA00';
-	var internalStrokeColor = '#00FF00';
-	var internalLineWidth = 1;
-	
 	var directionHorizontalLimitPos = canvas.width / 10;
 	var directionHorizontalLimitNeg = directionHorizontalLimitPos * -1;
 	var directionVerticalLimitPos = canvas.height / 10;
@@ -41,7 +40,7 @@ var JoyStick = (function(container) {
 	// Dummy element to get CSS style for joystick button on canvas
 	var div = document.createElement("div");
     div.style = "display: none";
-	div.className='joystickButton';
+	div.id='joystickButton';
 	document.body.appendChild(div);
 	const joyStyle = getComputedStyle(div);
 

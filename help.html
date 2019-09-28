@@ -8,13 +8,16 @@
 <body>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+<link id="stylelink" rel="stylesheet" href="styles/theme.css">
+
 <div class="container theme-showcase" role="main">
-<div class="page-header">
-    <table width="100%"><tr><td><h1>MicroBit Monitor Documentation</h1></td>
-    <td align="right"><img src="images/orcsgirls.png" height="40px"></td></tr></table>
-	<hr>
+<div class="header text-center p-3">
+    <img src="images/orcsgirls.png" height="40px" align="right">
+    <h1>MicroBit Monitor Documentation</h1></td>
+	Github: <a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">https://github.com/tproffen/MicroBitMonitor</a><br>
 </div>
 
+<div class="content p-3">
 <p><i>This is very much a work in progress. Expect changes and bugs :)</i></p>
 
 <h4>Prerequisites</h4>
@@ -42,13 +45,21 @@ would allow the MicroBit to change the title by sending the command <tt>lab:new 
 
 <p>Buttons on the webpage can be used to send commands to the MicroBit. The button must have the class <tt>btn-microbit</tt>. Buttons are automatically disabled while no MicroBit is connected. If active, pressing the button will send the <tt>value</tt> of the button to the MicroBit. The <b>Reset</b> for example will send the string <tt>Reset</tt>.</p>
 
+<h4>Joystick input</h4>
+
+<p>To add a virtual joystick as input, either use the joysick template or add the following code:
+<pre>
+	&lt;div id="joystick_div"&gt;&lt;/div&gt;
+</pre>
+If the joystick position is moved, the following strings are sent to the MicroBit: <tt>joyC</tt> if the joystick is in the middle and <tt>joyN, joyNE, joyE, joySE, joyS, joySW, joyW</tt> and <tt>joyNW</tt> if the joystick points in the corresponsing direction. In the current implementation only <b>one</b> joystick per page is supported.</p>
+
 <h4>Timer</h4>
 
 <p>One can add and control a timer to the web page. Either use the stop watch template or add the following code:
 <pre>
 	&lt;div id="timer_div"&gt;-&lt;/div&gt;
 </pre>
-The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch.</p>
+The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch. In the current implementation only <b>one</b> timer per page is supported.</p>
 
 <table class="table">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
@@ -83,8 +94,43 @@ The <tt>div</tt> tag will contain the timer value. The following commands can be
 	documentation for available options.</td></tr>
 </table>
 
-<p><hr>Github: <a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">https://github.com/tproffen/MicroBitMonitor</a><br>
-Contact: <a href="mailto:thomas@orcsgirls.org">thomas@orcsgirls.org</a></p>
+<h4>Styles</h4>
+
+<p>The appearance of the various elements such as charts, timer and joystick can be modified using the style field on the editor page. Below are the defaults used for the different elements. By adding the corresponding class name and CSS fields in the editor, the look of each element can be customized.
+<pre>
+#chartLine_div {
+	height: 400px;
+}
+
+#timer_div {
+	font-family: monospace; 
+	font-size: 48px;
+}
+
+#joystick_div {
+	height: 300px;
+}
+
+#joystick {
+	background-color: #eeeeee;
+	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;
+}
+
+#joystickButton {
+	height: 100px;
+	color: #ff0000;
+	border-color: #000000;
+	border-width: 3px;
+}
+</pre>
+ 
+</div>
+
+<div class="footer">
+Contact: <a href="mailto:thomas@orcsgirls.org">thomas@orcsgirls.org</a>
+</div>
 </div>
 </body>
 </html>
