@@ -3,11 +3,12 @@
  */
  
 var JoyStick = (function(container) {
+
 	var objContainer = document.getElementById(container);
 	var canvas = document.createElement('canvas');
 
 	canvas.height=objContainer.clientHeight;
-	canvas.width=objContainer.clientWidth;
+	canvas.width=objContainer.clientHeight; // Force square aspect ratio
 	
 	objContainer.appendChild(canvas);
 	var context=canvas.getContext('2d');
@@ -213,7 +214,7 @@ var JoyStick = (function(container) {
 		{
 			if(result=="C")
 			{ 
-				result = "W";
+				result = "E";
 			}
 			else
 			{

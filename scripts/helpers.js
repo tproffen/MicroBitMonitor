@@ -4,6 +4,7 @@ var data, chart, options;
 var clock, clocktimer, clockID;
 var joy, joyTimer, joyDirOld;
 var device, services, ctype;
+var bleConnected;
 var index=0;
 
 //---------------------------------------------------------------------------------------------------------
@@ -13,6 +14,7 @@ var index=0;
 function setup() {
 	var url = window.location.pathname;
 	var filename = url.substring(url.lastIndexOf('/')+1);
+	bleConnected=false;
 	
 	if (!filename || filename==="index.html") {
 		document.getElementById("editBtn").innerHTML=saveEditButtons();
@@ -303,6 +305,7 @@ function onDisconnected(event) {
 	document.getElementById("msg").innerHTML="<b>Bluetooth disconnected</b>";
 	document.getElementById("ble").innerHTML=connectButton();
 	buttonStatusToggle(true);
+	bleConnected=true;
 }
 
 function uartCallback (event) {
@@ -391,6 +394,7 @@ async function bleConnect() {
 				document.getElementById("msg").innerHTML="<b>Connected to MicroBit</b>";
 				document.getElementById("ble").innerHTML=disconnectButton();
 				buttonStatusToggle(false);
+				bleConnected=true;
 
 				uartSend("Ready");
 			}
@@ -528,8 +532,12 @@ function updateJoystick() {
 	var joyDir = joy.GetDir();
 	
 	if(joyDir !== joyDirOld) {
-		document.getElementById("msg").innerHTML="<b>Joystick</b>: "+joy.GetDir()+ " --- Updated: "+Date().toString();
+		document.getElementById("msg").innerHTML="<b>Joystick</b>: "+joy.GetDir();
 		joyDirOld = joyDir;
+		
+		if(bleConnected) {
+			uartSend('joy'+joyDir);
+		}
 	}
 }
 
