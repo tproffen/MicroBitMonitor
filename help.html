@@ -10,14 +10,14 @@
 
 <link id="stylelink" rel="stylesheet" href="styles/theme.css">
 
-<div class="container theme-showcase" role="main">
+<div class="container-fluid p-0">
 <div class="header text-center p-3">
     <img src="images/orcsgirls.png" height="40px" align="right">
     <h1>MicroBit Monitor Documentation</h1></td>
-	Github: <a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">https://github.com/tproffen/MicroBitMonitor</a><br>
+	<a href="https://github.com/tproffen/MicroBitMonitor" target="_blank">Code on Github</a><br>
 </div>
 
-<div class="content p-3">
+<div class="content p-2 px-5">
 <p><i>This is very much a work in progress. Expect changes and bugs :)</i></p>
 
 <h4>Prerequisites</h4>
@@ -61,7 +61,7 @@ If the joystick position is moved, the following strings are sent to the MicroBi
 </pre>
 The <tt>div</tt> tag will contain the timer value. The following commands can be sent from the MicroBit to control the stop watch. In the current implementation only <b>one</b> timer per page is supported.</p>
 
-<table class="table">
+<table class="table table-sm text-left">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
 <tr class="bg-light"><td colspan="2">Timer commands</td></tr>
 <tr><td><tt>tStart</tt></td><td>This will start the timer.</td></tr>
@@ -73,7 +73,7 @@ The <tt>div</tt> tag will contain the timer value. The following commands can be
 
 <p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt> or <tt>&lt;div id="<b>chartLine_div</b>"&gt;&lt;/div&gt;</tt>tags. The chart specific commands are summarized in the table below.</p>
 
-<table class="table">
+<table class="table table-sm text-left">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
 <tr class="bg-light"><td colspan="2">Chart types</td></tr>
 <tr><td>Gauge</td><td>This will create a gauge for each value and updating the values as they are received.</td></tr>
