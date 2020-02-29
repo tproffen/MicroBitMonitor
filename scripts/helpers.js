@@ -622,10 +622,6 @@ function formatTime(time) {
 	return newTime;
 }
 
-function clockShow() {
-	update();
-}
-
 function clockUpdate() {
 	clockID.innerHTML = formatTime(clock.time());
 }
