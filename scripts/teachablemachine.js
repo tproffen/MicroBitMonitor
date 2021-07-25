@@ -9,7 +9,6 @@ var TeachableMachine = (function(container) {
 
     let model, webcam, labelContainer, maxPredictions;
 	let currentClass = "None";
-	tmURL="https://teachablemachine.withgoogle.com/models/4W03uTn-c/";
 	init();
 
 	/******************************************************
@@ -46,6 +45,7 @@ var TeachableMachine = (function(container) {
 
 		let bestClass = 0;;
 		let threshhold = 0.75;
+		currentClass = "None";
 		
         for (let i = 0; i < maxPredictions; i++) {
 			if(prediction[i].probability > threshhold && prediction[i].probability > bestClass) {
