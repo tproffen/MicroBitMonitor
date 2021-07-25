@@ -13,6 +13,7 @@ var TeachableMachine = (function(container) {
 	if (!infoContainer) {
 		infoContainer = document.createElement('div');
 		objContainer.appendChild(infoContainer);
+		infoContainer.innerHTML="Please wait for network to load ..";
 	}
 
     let model, webcam, labelContainer, maxPredictions;
@@ -42,7 +43,7 @@ var TeachableMachine = (function(container) {
         webcamContainer.appendChild(webcam.canvas);
 		
 		// Show link to model
-		infoContainer.innerHTML="<a href="+tmURL+">Neural Network</a>";
+		infoContainer.innerHTML="<a href="+tmURL+" target='_blank'>Neural Network</a>";
     }
 
     async function loop() {
