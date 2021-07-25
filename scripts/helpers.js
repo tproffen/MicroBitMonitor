@@ -301,7 +301,7 @@ function joystickPanel() {
 }
 
 function TeachableMachinePanel() {
-	return "<div id='TeachableMachine_div'><script>tmurl='ADD URL To NN HERE';</script></div>";
+	return "<div id='TeachableMachine_div'></div>";
 }
 
 function togglePanel(name,icon) {
@@ -563,7 +563,7 @@ function updateTeachableMachine() {
 function initializeTeachableMachine() {
 	if (document.getElementById("TeachableMachine_div")) {
 		tm = new TeachableMachine('TeachableMachine_div');
-		tm.setURL(tmURL);
+		tm.setURL(document.getElementById("tmURL").value);
 		
 		if(tmTimer) {
 			clearInterval(tmTimer);
