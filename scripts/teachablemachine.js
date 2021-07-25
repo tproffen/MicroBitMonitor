@@ -2,12 +2,15 @@ var TeachableMachine = (function(container) {
 
 	var objContainer = document.getElementById(container);
 	var webcamContainer = document.getElementById('webcam');
+	var tmURL = "https://teachablemachine.withgoogle.com/models/"+document.getElementById('tmCode').value+"/";
+
+	
 	if (!webcamContainer) {
 		webcamContainer = document.createElement('webcam');
 		objContainer.appendChild(webcamContainer);
 	}
 
-    let model, webcam, labelContainer, maxPredictions, tmURL;
+    let model, webcam, labelContainer, maxPredictions;
 	let currentClass = "None";
 	init();
 
@@ -62,13 +65,5 @@ var TeachableMachine = (function(container) {
 	this.GetClass = function ()
 	{
 		return currentClass;
-	};
-	
-	this.setURL = function (code)
-	{
-		console.log(code);
-		tmURL = "https://teachablemachine.withgoogle.com/models/"+code+"/";
-		return;
-	};
-	
+	};	
 });
