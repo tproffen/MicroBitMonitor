@@ -53,6 +53,16 @@ would allow the MicroBit to change the title by sending the command <tt>lab:new 
 </pre>
 If the joystick position is moved, the following strings are sent to the MicroBit: <tt>joyC</tt> if the joystick is in the middle and <tt>joyN, joyNE, joyE, joySE, joyS, joySW, joyW</tt> and <tt>joyNW</tt> if the joystick points in the corresponsing direction. In the current implementation only <b>one</b> joystick per page is supported.</p>
 
+<h4>Machine Learning input</h4>
+
+<p>You can train a neutron network using <a href="https://teachablemachine.withgoogle.com/">Google's Teachable Machine</a> and use the trained classifications to send to the MicroBit based on Webcam input on the webpage. You will need to train the network and upload the network (Click export on their page). Take a note of the link - you will need the code at the end of the link to setup the panel. Here is the HTML to add on the edit page: 
+<pre>
+&lt;div id='TeachableMachine_div'&gt;
+&lt;input type='hidden' id='tmCode' value='MODEL-ID-HERE'&gt;
+&lt;/div&gt;
+</pre>
+The part <tt>MODEL-ID-HERE</tt> needs top be the end of the link to the uploaded network. If the classification based on the webcam image changes, the following string is sent to the MicroBit: <tt>tmCLASSNAME</tt> where <tt>CLASSNAME</tt> is the label of the class you entered when training the netwoek with the Teachable Machine. It is recommended to <b>not</b> use spaces or special characters in the class names.</p>
+
 <h4>Timer</h4>
 
 <p>One can add and control a timer to the web page. Either use the stop watch template or add the following code:

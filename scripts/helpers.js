@@ -87,7 +87,7 @@ function saveData() {
 }
 
 function pageHeader() {
-	return "<html><head><title>ORCS Girls - MicroBit Monitor</title><meta name='viewport' content='width=device-width, initial-scale=1'><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script><script>google.charts.load('current', {'packages':['corechart','gauge']});</script></head>";
+	return "<html><head><title>ORCS Girls - MicroBit Monitor</title><meta name='viewport' content='width=device-width, initial-scale=1'><script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>	<script src='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js'></script><script src='https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js'></script><script>google.charts.load('current', {'packages':['corechart','gauge']});</script></head>";
 }
 
 function expandLinks(flag) {
