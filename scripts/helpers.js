@@ -3,6 +3,7 @@ const bufferSize=100;
 var data, chart, options;
 var clock, clocktimer, clockID;
 var joy, joyTimer, joyDirOld;
+var tm, tmURL, tmTimer, tmClassOld;
 var device, services, ctype;
 var bleConnected;
 var index=0;
@@ -37,6 +38,7 @@ function setup() {
 	document.getElementById("ble").innerHTML=connectButton();
 	initializeChart();
 	initializeJoystick();
+	initializeTeachableMachine();
 	initializeTimer();
 	buttonCallbacks();
 	buttonStatusToggle(true);
@@ -95,6 +97,7 @@ function expandLinks(flag) {
 	document.getElementById("imglink").src=prefix+"images/orcsgirls.png";
 	document.getElementById("helperslink").src=prefix+"scripts/helpers.js";
 	document.getElementById("joylink").src=prefix+"scripts/joy.js";
+	document.getElementById("teachlink").src=prefix+"scripts/TeachableMachine.js";
 	document.getElementById("microbitlink").src=prefix+"dist/microbit.umd.js";
 	document.getElementById("purifylink").src=prefix+"dist/purify.min.js";
 	document.getElementById("stylelink").href=prefix+"styles/theme.css";
@@ -109,7 +112,7 @@ function disconnectButton() {
 }
 
 function saveEditButtons() {
-	return "<input type='submit' value='Edit' class='btn btn-primary btn-sm' onClick=\"onclick=window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary btn-sm' onClick='saveData();'>";
+	return "<input type='submit' value='Edit' class='btn btn-primary btn-sm' onClick=\"window.open('edit.html','MicroBitMonitor Edit', 'width=800,height=900')\">&nbsp;<input type='submit' value='Save' class='btn btn-primary btn-sm' onClick='saveData();'>";
 }
 
 function editUpdate() {
@@ -149,6 +152,7 @@ function editField(row,val) {
 	document.write("<option value='bc'>Bar chart</option>\n");
 	document.write("<option value='gc'>Gauge panel</option>\n");
 	document.write("<option value='j'>Joystick panel</option>\n");
+	document.write("<option value='ml'>Teachable Machine panel</option>\n");
 	document.write("<option value='vt'>Value & Text panel</option>\n");	
 	document.write("<option value='vlc'>Value & Line chart</option>\n");
 	document.write("<option value='vbc'>Value & Bar chart</option>\n");
@@ -228,6 +232,9 @@ function fillTemplate(row) {
 		case 'j':
 			document.getElementById('row'+row+'Edit').value=joystickPanel();
 			break;
+		case 'ml':
+			document.getElementById('row'+row+'Edit').value=TeachableMachinePanel();
+			break;
 		default:
 			document.getElementById('row'+row+'Edit').value="Error";
 	}
@@ -291,6 +298,10 @@ function timerPanel() {
 
 function joystickPanel() {
 	return "<div id='joystick_div'></div>";
+}
+
+function TeachableMachinePanel() {
+	return "<div id='TeachableMachine_div'><script>tmurl='ADD URL To NN HERE';</script></div>";
 }
 
 function togglePanel(name,icon) {
@@ -533,6 +544,33 @@ function drawBasicGauge() {
 }
 
 //---------------------------------------------------------------------------------------------------------
+// Teachable Machine interface
+//---------------------------------------------------------------------------------------------------------
+
+function updateTeachableMachine() {
+	var tmClass = tm.GetClass();
+	
+	if(tmClass !== tmClassOld) {
+		document.getElementById("msg").innerHTML="<b>Teachable Machine</b>: "+tmClass;
+		tmClassOld = tmClass;
+		
+		if(bleConnected) {
+			uartSend('tm'+tmClass);
+		}
+	}
+}
+
+function initializeTeachableMachine() {
+	if (document.getElementById("TeachableMachine_div")) {
+		tm = new TeachableMachine('TeachableMachine_div');
+		if(tmTimer) {
+			clearInterval(tmTimer);
+		}
+		tmTimer=setInterval(updateTeachableMachine,100);
+	}
+}
+
+//---------------------------------------------------------------------------------------------------------
 // JoyStick interface
 //---------------------------------------------------------------------------------------------------------
 
@@ -540,7 +578,7 @@ function updateJoystick() {
 	var joyDir = joy.GetDir();
 	
 	if(joyDir !== joyDirOld) {
-		document.getElementById("msg").innerHTML="<b>Joystick</b>: "+joy.GetDir();
+		document.getElementById("msg").innerHTML="<b>Joystick</b>: "+joyDir;
 		joyDirOld = joyDir;
 		
 		if(bleConnected) {
