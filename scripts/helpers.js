@@ -563,7 +563,7 @@ function updateTeachableMachine() {
 function initializeTeachableMachine() {
 	if (document.getElementById("TeachableMachine_div")) {
 		tm = new TeachableMachine('TeachableMachine_div');
-		tm.setURL(document.getElementById("tmURL").value);
+		tm.setURL(document.getElementById("tmCode").value);
 		
 		if(tmTimer) {
 			clearInterval(tmTimer);

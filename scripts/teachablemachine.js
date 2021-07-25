@@ -64,10 +64,10 @@ var TeachableMachine = (function(container) {
 		return currentClass;
 	};
 	
-	this.setURL = function (url)
+	this.setURL = function (code)
 	{
-		console.log(url);
-		tmURL = url;
+		console.log(code);
+		tmURL = "https://teachablemachine.withgoogle.com/models/"+code+"/";
 		return;
 	};
 	
