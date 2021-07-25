@@ -66,6 +66,7 @@ var TeachableMachine = (function(container) {
 	
 	this.setURL = function (url)
 	{
+		console.log(url);
 		tmURL = url;
 		return;
 	};
