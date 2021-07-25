@@ -7,7 +7,7 @@ var TeachableMachine = (function(container) {
 		objContainer.appendChild(webcamContainer);
 	}
 
-    let model, webcam, labelContainer, maxPredictions;
+    let model, webcam, labelContainer, maxPredictions, tmURL;
 	let currentClass = "None";
 	init();
 
@@ -62,6 +62,12 @@ var TeachableMachine = (function(container) {
 	this.GetClass = function ()
 	{
 		return currentClass;
+	};
+	
+	this.setURL = function (url)
+	{
+		tmURL = url;
+		return;
 	};
 	
 });
