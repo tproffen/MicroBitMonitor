@@ -301,7 +301,7 @@ function joystickPanel() {
 }
 
 function TeachableMachinePanel() {
-	return "<div id='TeachableMachine_div'></div>";
+	return "<div id='TeachableMachine_div'>\n<input type='hidden' id='tmCode' value='MODEL-ID-HERE'>\n</div>";
 }
 
 function togglePanel(name,icon) {

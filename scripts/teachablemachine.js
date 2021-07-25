@@ -2,12 +2,17 @@ var TeachableMachine = (function(container) {
 
 	var objContainer = document.getElementById(container);
 	var webcamContainer = document.getElementById('webcam');
+	var infoContainer = document.getElementById('tminfo');
 	var tmURL = "https://teachablemachine.withgoogle.com/models/"+document.getElementById('tmCode').value+"/";
 
 	
 	if (!webcamContainer) {
 		webcamContainer = document.createElement('webcam');
 		objContainer.appendChild(webcamContainer);
+	}
+	if (!infoContainer) {
+		infoContainer = document.createElement('div');
+		objContainer.appendChild(infoContainer);
 	}
 
     let model, webcam, labelContainer, maxPredictions;
@@ -35,6 +40,9 @@ var TeachableMachine = (function(container) {
 
         // append elements to the DOM
         webcamContainer.appendChild(webcam.canvas);
+		
+		// Show link to model
+		infoContainer.innerHTML="<a href="+tmURL+">Neural Network</a>";
     }
 
     async function loop() {
