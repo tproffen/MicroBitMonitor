@@ -461,7 +461,6 @@ function setColumns(fields) {
 	if (data) {
 		switch (ctype) {
 			case "line":
-			case "scatter":
 				for (var i=2; i<fields.length; i++) {
 					data.addColumn('number', fields[i]);
 				}
@@ -496,6 +495,7 @@ function updateRows(values) {
 				break;
 			case "scatter":
 				if (index>bufferSize) {data.removeRow(0);}
+				values.shift();
 				data.addRow(values.map(Number));
 				index++;
 				break;
@@ -532,12 +532,15 @@ function drawBasicLine() {
 function drawBasicScatter() {
 	data = new google.visualization.DataTable();
 	data.addColumn('number', 'x');
-	data.addColumn('number', '5');
+	data.addColumn('number', 'y');
 
 	options = {
 		height:		500,
 		width: 		500,
-		chartArea: 	{width: '80%', height: '80%'}
+		hAxis: 		{minValue: 0, maxValue: 500},
+		vAxis: 		{minValue: 0, maxValue: 500},
+		chartArea: 	{width: '80%', height: '80%'},
+		legend:		'none'
 	};
 
 	chart = new google.visualization.ScatterChart(document.getElementById('chartScatter_div'));
