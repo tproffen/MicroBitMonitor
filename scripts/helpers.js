@@ -1,4 +1,4 @@
-const bufferSize=100;
+const bufferSize=512;
 
 var data, chart, options;
 var clock, clocktimer, clockID;
@@ -480,6 +480,8 @@ function updateRows(values) {
 				if (index>bufferSize) {data.removeRow(0);}
 				values[0]=index;
 				data.addRow(values.map(Number));
+				options.hAxis.minValue=index-bufferSize;
+				options.hAxis.maxValue=index;
 				index++;
 				break;
 			case "bar":
@@ -504,6 +506,7 @@ function drawBasicLine() {
 	options = {
 		height:		400,
 		chartArea: 	{width: '80%', height: '80%'},
+		hAxis: 		{minValue: 0, maxValue: 10},
 		hAxis: 		{title: 'Time'}
 	};
 
