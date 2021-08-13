@@ -475,6 +475,8 @@ function setColumns(fields) {
 					data.addRow([fields[i],0,colors[i-1]]);
 				}
 				break;
+			case "scatter":
+				break;
 			default:
 				document.getElementById("msg").innerHTML="<b>Unknown chart type.</b> - "+ctype;
 		}
