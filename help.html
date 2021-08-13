@@ -81,7 +81,7 @@ The <tt>div</tt> tag will contain the timer value. The following commands can be
 
 <h4>Charts</h4>
 
-<p>Currently two types of charts are supported: Bar charts and Line Charts. To use a chart use the corresponding tempate from the drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt> or <tt>&lt;div id="<b>chartLine_div</b>"&gt;&lt;/div&gt;</tt>tags. The chart specific commands are summarized in the table below.</p>
+<p>The currently supported chart types are listed below. To use a chart use the corresponding tempate from the drop down menu or insert the <tt>&lt;div id="<b>chartBar_div</b>"&gt;&lt;/div&gt;</tt>tags for the specific chart type. The chart specific commands are summarized in the table below.</p>
 
 <table class="table table-sm text-left">
 <tr class="table-primary"><th>Command</th><th>Description</th></tr>
@@ -90,6 +90,8 @@ The <tt>div</tt> tag will contain the timer value. The following commands can be
 <tr><td>Bar chart</td><td>This will create a vertical bar chart updating the values as they are received.</td></tr>
 <tr><td>Line chart</td><td>This will create a line chart. Values will be added to the line as they are received. 
 	Once the maximum number of values for the chart is received, the chart will scroll horizontally.</td></tr>
+<tr><td>Scatter chart</td><td>This will create a scatter plot of values. Here <tt>cL</tt> gives the x and y axis labels and <tt>cV</tt> the x and y value for the point.</td></tr>
+	
 
 <tr class="bg-light"><td colspan="2">Chart commands</td></tr>
 <tr><td><tt>cL:l1:l2:..</tt></td><td>This will set the labels for the data columns to <tt>l1, l2, ..</tt> and so on. It 

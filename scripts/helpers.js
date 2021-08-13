@@ -150,6 +150,7 @@ function editField(row,val) {
 	document.write("<option value='v2'>Two value display</option>\n");
 	document.write("<option value='lc'>Line chart</option>\n");
 	document.write("<option value='bc'>Bar chart</option>\n");
+	document.write("<option value='sc'>Scatter chart</option>\n");
 	document.write("<option value='gc'>Gauge panel</option>\n");
 	document.write("<option value='j'>Joystick panel</option>\n");
 	document.write("<option value='ml'>Teachable Machine panel</option>\n");
@@ -210,6 +211,9 @@ function fillTemplate(row) {
 			break;
 		case 'gc':
 			document.getElementById('row'+row+'Edit').value=graph('Gauge');
+			break;
+		case 'sc':
+			document.getElementById('row'+row+'Edit').value=graph('Scatter');
 			break;
 		case 'vlc':
 			document.getElementById('row'+row+'Edit').value=valueGraph('Line');
@@ -444,6 +448,11 @@ function initializeChart() {
 		google.charts.setOnLoadCallback(drawBasicGauge);
 		ctype='gauge';
 	}
+
+	if(document.getElementById("chartScatter_div")) {
+		google.charts.setOnLoadCallback(drawBasicScatter);
+		ctype='scatter';
+	}
 }
 
 function setColumns(fields) {
@@ -452,6 +461,7 @@ function setColumns(fields) {
 	if (data) {
 		switch (ctype) {
 			case "line":
+			case "scatter":
 				for (var i=2; i<fields.length; i++) {
 					data.addColumn('number', fields[i]);
 				}
@@ -484,6 +494,11 @@ function updateRows(values) {
 				options.hAxis.maxValue=index;
 				index++;
 				break;
+			case "scatter":
+				if (index>bufferSize) {data.removeRow(0);}
+				data.addRow(values.map(Number));
+				index++;
+				break;
 			case "bar":
 			case "gauge":
 				for (var i=1; i<values.length; i++) {
@@ -511,6 +526,21 @@ function drawBasicLine() {
 	};
 
 	chart = new google.visualization.LineChart(document.getElementById('chartLine_div'));
+	chart.draw(data, options);
+}
+
+function drawBasicScatter() {
+	data = new google.visualization.DataTable();
+	data.addColumn('number', 'x');
+	data.addColumn('number', '5');
+
+	options = {
+		height:		500,
+		width: 		500,
+		chartArea: 	{width: '80%', height: '80%'}
+	};
+
+	chart = new google.visualization.ScatterChart(document.getElementById('chartScatter_div'));
 	chart.draw(data, options);
 }
 
