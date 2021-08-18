@@ -405,9 +405,10 @@ async function bleConnect() {
 	try {
 		device = await microbit.requestMicrobit(window.navigator.bluetooth);
 		document.getElementById("connect").disabled=true;
-		document.getElementById("msg").innerHTML="<b>Connecting to MicroBit</b> - Please wait.";
+		document.getElementById("msg").innerHTML="<b>Connecting to MicroBit NEW</b> - Please wait.";
 	
 		if (device) {
+			document.getElementById("msg").innerHTML="<b>Getting services</b> - Please wait.";
 			device.addEventListener('gattserverdisconnected', onDisconnected);
 		
 			services = await microbit.getServices(device);
