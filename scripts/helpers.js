@@ -58,6 +58,22 @@ function buttonStatusToggle(disabled) {
 	}
 }
 
+function saveChartData() {
+	var csv = google.visualization.dataTableToCsv(data);
+	var fileName="MicroBitMonitorData.csv";
+    	var a = document.createElement("a");
+    	document.body.appendChild(a);
+
+        blob = new Blob([csv], {type: "text/csv"}),
+        url = window.URL.createObjectURL(blob);
+
+    	a.style = "display: none";
+    	a.href = url;
+    	a.download = fileName;
+    	a.click();
+   	window.URL.revokeObjectURL(url);
+}
+
 function saveData() {
 	if (document.getElementById("chartBar_div")) { document.getElementById("chartBar_div").innerHTML="";}
 	if (document.getElementById("chartLine_div")) { document.getElementById("chartLine_div").innerHTML="";}
@@ -436,8 +452,11 @@ async function bleConnect() {
 
 function initializeChart() {
 	
+	document.getElementById("saveChart").disabled=true;
+
 	if(document.getElementById("chartLine_div")) {
 		google.charts.setOnLoadCallback(drawBasicLine);
+		document.getElementById("saveChart").disabled=false;
 		ctype='line';
 	}
 	
@@ -453,6 +472,7 @@ function initializeChart() {
 
 	if(document.getElementById("chartScatter_div")) {
 		google.charts.setOnLoadCallback(drawBasicScatter);
+		document.getElementById("saveChart").disabled=false;
 		ctype='scatter';
 	}
 }
