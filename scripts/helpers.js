@@ -68,17 +68,18 @@ function saveData() {
 	var data=pageHeader()+"<body>"+document.getElementsByTagName("BODY")[0].innerHTML+"</body></html>";
 	var fileName="MicroBitMonitor.html";
 	
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
+    	var a = document.createElement("a");
+    	document.body.appendChild(a);
+    	a.style = "display: none";
 
-    var json = JSON.stringify(data),
+    	var json = JSON.stringify(data),
         blob = new Blob([data], {type: "text/plain;charset=utf-8"}),
         url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
+    	a.href = url;
+    	a.download = fileName;
+    	a.click();
+	
+   	window.URL.revokeObjectURL(url);
 
 	document.getElementById("editBtn").innerHTML=saveEditButtons();
 	document.getElementById("msg").innerHTML="File saved.";
