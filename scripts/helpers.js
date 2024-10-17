@@ -350,7 +350,7 @@ function onDisconnected(event) {
 
 function uartCallback (event) {
 	response=event.detail.replace(/(\r\n|\n|\r)/gm, "").split(":");
-	document.getElementById("msg").innerHTML="<b>Received command</b> - "+response[0];
+	document.getElementById("msg").innerHTML="<b>Received command</b>: <tt>"+response+"</tt>";
 	
 	switch(response[0]) {
 		case "cL":
